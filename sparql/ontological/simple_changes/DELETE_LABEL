@@ -6,19 +6,17 @@ INSERT INTO <changesOntology> {
     co:new_version ?v2.
 }
 WHERE {
-{
-GRAPH <deletedLowLevelChanges> { 
-?r diachron:subject ?a.
-}
-} UNION {
 GRAPH <v1> { 
-?r diachron:subject ?a.
+?r diachron:subject ?a;
+   diachron:hasRecordAttribute ?ratt.
+?ratt diachron:predicate rdfs:label;
+      diachron:object ?b.
 }
-}
-GRAPH <deletedLowLevelChanges> { 
+FILTER NOT EXISTS { GRAPH <v2> {
 ?r diachron:hasRecordAttribute ?ratt.
 ?ratt diachron:predicate rdfs:label;
       diachron:object ?b.
+}
 }
 #
 BIND(IRI('v1') as ?v1).
@@ -26,12 +24,4 @@ BIND(IRI('v2') as ?v2).
 BIND(concat(str(?a), str(?b), str(?v1), str(?v2)) as ?url) .
 #
 BIND(IRI(CONCAT('http://dl/',SHA1(?url))) AS ?dl).
-}
-DELETE WHERE {
-GRAPH <deletedLowLevelChanges> { 
-?r diachron:hasRecordAttribute ?ratt.
-?ratt a diachron:RecordAttribute;
-      diachron:predicate rdfs:label;
-      diachron:object ?b.
-}
 }

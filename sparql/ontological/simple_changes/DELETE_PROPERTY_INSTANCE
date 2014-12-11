@@ -7,21 +7,21 @@ INSERT INTO <changesOntology> {
     co:new_version ?v2.
 }
 WHERE {
-{
-GRAPH <deletedLowLevelChanges> { 
-?r diachron:subject ?a.
-}
-} UNION {
 GRAPH <v1> { 
-?r diachron:subject ?a.
+?r diachron:subject ?a;
+   diachron:hasRecordAttribute ?ratt.
+?ratt diachron:predicate ?p;
+      diachron:object ?b.
+FILTER(?p!=rdfs:subClassOf && ?p!=rdfs:subPropertyOf && ?p!=rdf:type && ?p!=rdfs:comment && 
+?p!=rdfs:label && ?p!=rdfs:domain && ?p!=rdfs:range)  
 }
-}
-GRAPH <deletedLowLevelChanges> { 
+FILTER NOT EXISTS { GRAPH <v2> {
 ?r diachron:hasRecordAttribute ?ratt.
 ?ratt diachron:predicate ?p;
       diachron:object ?b.
-filter(?p!=rdfs:subClassOf && ?p!=rdfs:subPropertyOf && ?p!=rdf:type && ?p!=rdfs:comment && 
-?p!=rdfs:label && ?p!=rdfs:domain && ?p!=rdfs:range) 
+FILTER(?p!=rdfs:subClassOf && ?p!=rdfs:subPropertyOf && ?p!=rdf:type && ?p!=rdfs:comment && 
+?p!=rdfs:label && ?p!=rdfs:domain && ?p!=rdfs:range)  
+}
 }
 #
 BIND(IRI('v1') as ?v1).
@@ -30,14 +30,3 @@ BIND(concat(str(?a), str(?p), str(?b), str(?v1), str(?v2)) as ?url) .
 #
 BIND(IRI(CONCAT('http://dpi/',SHA1(?url))) AS ?dpi).
 }
-DELETE WHERE {
-GRAPH <deletedLowLevelChanges> { 
-?r diachron:hasRecordAttribute ?ratt.
-?ratt a diachron:RecordAttribute;
-      diachron:predicate ?p;
-      diachron:object ?b.
-FILTER(?p!=rdfs:subClassOf && ?p!=rdfs:subPropertyOf && ?p!=rdf:type && ?p!=rdfs:comment && 
-?p!=rdfs:label && ?p!=rdfs:domain && ?p!=rdfs:range).
-}
-}
-
