@@ -1,7 +1,7 @@
 INSERT INTO <changesOntology> {
 ?ais a co:Add_inScheme;
-    co:ais_p1 ?x;
-	co:ais_p2 ?s;
+    co:addInSch_p1 ?x;
+	co:addInSch_p2 ?s;
     co:old_version ?v1;
     co:new_version ?v2.
 }
@@ -12,14 +12,16 @@ FILTER NOT EXISTS {
 UNION 
 {?s rdf:type diachron:Hierarchy.}
 }
-}
-GRAPH <addedLowLevelChanges> { 
 ?x diachron:inScheme ?s.
+}
+FILTER NOT EXISTS { GRAPH <v1> {
+?x diachron:inScheme ?s.
+}
 }
 #
 BIND(IRI('v1') as ?v1).
 BIND(IRI('v2') as ?v2).
-BIND(concat("ais",str(?x), str(?s), str(?v1), str(?v2)) as ?url) .
+BIND(concat("addInSch",str(?x), str(?s), str(?v1), str(?v2)) as ?url) .
 #
-BIND(IRI(CONCAT('http://ais/',SHA1(?url))) AS ?ais).
+BIND(IRI(CONCAT('http://addInSch/',SHA1(?url))) AS ?ais).
 }

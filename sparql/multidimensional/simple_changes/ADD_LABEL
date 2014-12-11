@@ -1,22 +1,29 @@
 INSERT INTO <changesOntology> {
 ?al a co:Add_Label;
-    co:al_p1 ?s;
-	co:al_p2 ?p;
-	co:al_p3 ?o;
+    co:addLab_p1 ?s;
+	co:addLab_p2 ?p;
+	co:addLab_p3 ?o;
     co:old_version ?v1;
     co:new_version ?v2.
 }
 WHERE {
-{ GRAPH <v2> {?p rdfs:subClassOf rdfs:label} }
+GRAPH <v2> {
+{?p rdfs:subPropertyOf rdfs:label} 
 UNION 
-{ GRAPH <v2> { filter (?p = rdfs:label).} }
-GRAPH <addedLowLevelChanges> { 
+{filter (?p = rdfs:label).} 
 ?s ?p ?o
+}
+FILTER NOT EXISTS { GRAPH <v1> {
+{?p rdfs:subPropertyOf rdfs:label} 
+UNION 
+{filter (?p = rdfs:label).} 
+?s ?p ?o
+}
 }
 #
 BIND(IRI('v1') as ?v1).
 BIND(IRI('v2') as ?v2).
-BIND(concat("al", str(?s), str(?p), str(?o), str(?v1), str(?v2)) as ?url) .
+BIND(concat("addLab", str(?s), str(?p), str(?o), str(?v1), str(?v2)) as ?url) .
 #
-BIND(IRI(CONCAT('http://al/',SHA1(?url))) AS ?al).
+BIND(IRI(CONCAT('http://addLab/',SHA1(?url))) AS ?al).
 }

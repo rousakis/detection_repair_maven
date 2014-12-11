@@ -1,24 +1,22 @@
 INSERT INTO <changesOntology> {
 ?amtft a co:Attach_Measure_To_FT;
-    co:amtft_p1 ?m;
-	co:amtft_p2 ?ft;
+    co:attMeasToFT_p1 ?m;
+	co:attMeasToFT_p2 ?ft;
     co:old_version ?v1;
     co:new_version ?v2.
 }
 WHERE {
-GRAPH <addedLowLevelChanges> { 
+GRAPH <v2> { 
 ?ft diachron:hasMeasure ?m.
+}
+FILTER NOT EXISTS { GRAPH <v1> { 
+?ft diachron:hasMeasure ?m.
+}
 }
 #
 BIND(IRI('v1') as ?v1).
 BIND(IRI('v2') as ?v2).
-BIND(concat("amtft",str(?m), str(?ft), str(?v1), str(?v2)) as ?url) .
+BIND(concat("attMeasToFT",str(?m), str(?ft), str(?v1), str(?v2)) as ?url) .
 #
-BIND(IRI(CONCAT('http://amtft/',SHA1(?url))) AS ?amtft).
+BIND(IRI(CONCAT('http://attMeasToFT/',SHA1(?url))) AS ?amtft).
 }
-
-#DELETE WHERE {
-#GRAPH <addedLowLevelChanges> { 
-#?ft diachron:hasMeasure ?m.
-#}
-#}

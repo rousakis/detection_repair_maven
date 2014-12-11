@@ -1,34 +1,28 @@
 INSERT INTO <changesOntology> {
 ?ddvfo a co:Delete_Dimension_Value_From_Observation;
-    co:ddvfo_p1 ?o;
-	co:ddvfo_p2 ?d;
-	co:ddvfo_p3 ?v;
+    co:delDimVFromOb_p1 ?o;
+	co:delDimVFromOb_p2 ?d;
+	co:delDimVFromOb_p3 ?v;
     co:old_version ?v1;
     co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> { 
 ?d a diachron:DimensionProperty.
-}
-GRAPH <deletedLowLevelChanges> { 
 ?o diachron:hasRecordAttribute ?ratt.
-?ratt a diachron:RecordAttribute;
-      diachron:predicate ?d;
+?ratt diachron:predicate ?d;
 	  diachron:object ?v.
+}
+FILTER NOT EXISTS { GRAPH <v2> { 
+?o diachron:hasRecordAttribute ?ratt.
+?ratt diachron:predicate ?d;
+	  diachron:object ?v.
+}
 }
 #
 BIND(IRI('v1') as ?v1).
 BIND(IRI('v2') as ?v2).
-BIND(concat("ddvfo",str(?o), str(?d), str(?v), str(?v1), str(?v2)) as ?url) .
+BIND(concat("delDimVFromOb",str(?o), str(?d), str(?v), str(?v1), str(?v2)) as ?url) .
 #
-BIND(IRI(CONCAT('http://ddvfo/',SHA1(?url))) AS ?ddvfo).
+BIND(IRI(CONCAT('http://delDimVFromOb/',SHA1(?url))) AS ?ddvfo).
 }
-
-#DELETE WHERE {
-#GRAPH <deletedLowLevelChanges> { 
-#?o diachron:hasRecordAttribute ?ratt.
-#?ratt a diachron:RecordAttribute;
-#      diachron:predicate ?d;
-#	  diachron:object ?v.
-#}
-#}

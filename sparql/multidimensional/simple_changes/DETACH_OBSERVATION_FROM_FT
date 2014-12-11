@@ -1,24 +1,22 @@
 INSERT INTO <changesOntology> {
 ?dofft a co:Detach_Observation_From_FT;
-    co:dofft_p1 ?o;
-	co:dofft_p2 ?ft;
+    co:detObFromFT_p1 ?o;
+	co:detObFromFT_p2 ?ft;
     co:old_version ?v1;
     co:new_version ?v2.
 }
 WHERE {
-GRAPH <deletedLowLevelChanges> { 
+GRAPH <v1> { 
 ?o diachron:subject ?ft.
+}
+FILTER NOT EXISTS { GRAPH <v2> {
+?o diachron:subject ?ft.
+}
 }
 #
 BIND(IRI('v1') as ?v1).
 BIND(IRI('v2') as ?v2).
-BIND(concat("dofft",str(?o), str(?ft), str(?v1), str(?v2)) as ?url) .
+BIND(concat("detObFromFT",str(?o), str(?ft), str(?v1), str(?v2)) as ?url) .
 #
-BIND(IRI(CONCAT('http://dofft/',SHA1(?url))) AS ?dofft).
+BIND(IRI(CONCAT('http://detObFromFT/',SHA1(?url))) AS ?dofft).
 }
-
-#DELETE WHERE {
-#GRAPH <deletedLowLevelChanges> { 
-#?o diachron:subject ?ft.
-#}
-#}

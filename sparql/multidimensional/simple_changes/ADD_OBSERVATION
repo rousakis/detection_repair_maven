@@ -1,23 +1,21 @@
 INSERT INTO <changesOntology> {
 ?ao a co:Add_Observation;
-    co:ao_p1 ?o;
+    co:addOb_p1 ?o;
     co:old_version ?v1;
     co:new_version ?v2.
 }
 WHERE {
-GRAPH <addedLowLevelChanges> { 
+GRAPH <v2> { 
 ?o a diachron:Observation.
+}
+FILTER NOT EXISTS { GRAPH <v1> { 
+?o a diachron:Observation.
+}
 }
 #
 BIND(IRI('v1') as ?v1).
 BIND(IRI('v2') as ?v2).
-BIND(concat("ao", str(?o), str(?v1), str(?v2)) as ?url) .
+BIND(concat("addOb", str(?o), str(?v1), str(?v2)) as ?url) .
 #
-BIND(IRI(CONCAT('http://ao/',SHA1(?url))) AS ?ao).
+BIND(IRI(CONCAT('http://addOb/',SHA1(?url))) AS ?ao).
 }
-
-#DELETE WHERE {
-#GRAPH <addedLowLevelChanges> { 
-#?o a diachron:Observation.
-#}
-#}
