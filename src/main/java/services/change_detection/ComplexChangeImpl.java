@@ -185,6 +185,7 @@ public class ComplexChangeImpl {
             message = "Complex Change was not found in the ontology of changes.";
         }
         String json = "{ \"Message\" : \"" + message + "\", \"Result\" : " + result + " }";
+        manager.terminate();
         return Response.status(code).entity(json).build();
     }
 
@@ -274,8 +275,10 @@ public class ComplexChangeImpl {
             return Response.status(400).entity(json).build();
         }
         CCManager ccDef = null;
+        String changesOntology = properties.getProperty("Changes_Ontology");
+        String changesOntologySchema = properties.getProperty("Changes_Ontology_Schema");
         try {
-            ccDef = JSONMessagesParser.createCCDefinition(properties, inputMessage);
+            ccDef = JSONMessagesParser.createCCDefinition(properties, inputMessage, changesOntology, changesOntologySchema);
         } catch (Exception ex) {
             boolean result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
@@ -305,8 +308,8 @@ public class ComplexChangeImpl {
                 result = false;
             }
             String json = "{ \"Message\" : \"" + message + "\", \"Success\" : " + result + " }";
+            ccDef.terminate();
             return Response.status(code).entity(json).build();
-
         }
     }
 }
