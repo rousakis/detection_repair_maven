@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?atti a co:Add_Type_To_Individual;
       co:atti_p1 ?a;
-      co:atti_p2 ?b;
-      co:old_version ?v1;
-      co:new_version ?v2.
+      co:atti_p2 ?b.
 }
 WHERE {
 GRAPH <v2> { 

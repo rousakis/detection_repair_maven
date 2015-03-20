@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?dd a co:Delete_Datatype;
     co:delDtype_p1 ?x;
-	co:delDtype_p2 ?t;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:delDtype_p2 ?t.
 }
 WHERE {
 GRAPH <v1> { 

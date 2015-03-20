@@ -21,12 +21,12 @@ public class TestChangeDetection {
         String v2 = "http://www.diachron-fp7.eu/resource/recordset/efo/2.35";
         boolean ingest = true;
         String ip = "139.91.183.48";
-//        ip = "localhost";
-        WebResource r = c.resource("http://"+ip+":8181/ForthMaven-1.0/diachron/change_detection");
-        String input = "{ \"V1\" : \"" + v1 + "\", "
-                + "\"V2\" : \"" + v2 + "\", "
-                + "\"ingest\" : " + ingest + ", "
-                + "\"CCs\" : [ ] }";
+        ip = "localhost";
+        WebResource r = c.resource("http://" + ip + ":8181/ForthMaven-1.0/diachron/change_detection");
+        String input = "{ \"Old_Version\" : \"" + v1 + "\", "
+                + "\"New_Version\" : \"" + v2 + "\", "
+                + "\"Ingest\" : " + ingest + ", "
+                + "\"Complex_Changes\" : [ ] }";
         ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input);
         System.out.println(response.getEntity(String.class));
         System.out.println(response.getStatus());

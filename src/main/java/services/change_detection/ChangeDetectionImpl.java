@@ -18,6 +18,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.diachron.detection.change_detection_utils.ChangesDetector;
+import org.diachron.detection.change_detection_utils.ChangesManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -49,35 +50,44 @@ public class ChangeDetectionImpl {
     }
 
     /**
-     * <b>POST</b> method which is responsible for the change detection process among two dataset versions. 
-     * This method detects any existing simple and complex changes and updates the ontology of changes accordingly. <br>
+     * <b>POST</b> method which is responsible for the change detection process
+     * among two dataset versions. This method detects any existing simple and
+     * complex changes and updates the ontology of changes accordingly. <br>
      * <b>URL:</b> /diachron/change_detection
-     * @param <b>inputMessage</b> : A JSON-encoded string which has the following form: <br>
+     *
+     * @param <b>inputMessage</b> : A JSON-encoded string which has the
+     * following form: <br>
      * { <br>
-     * "Old_Version" : "V1", <br>
-     * "New_Version" : "V2", <br>
-     * "ingest" : true, <br>
-     * "CCs" : ["Label_Obsolete", ...] <br>
+     * "Old_Version" : "v1", <br>
+     * "New_Version" : "v2", <br>
+     * "Ingest" : true, <br>
+     * "Complex_Changes" : ["Label_Obsolete", ...] <br>
      * } <br>
      * where
      * <ul>
      * <li>Old_Version - The old version URI of a DIACHRON entity.<br>
      * <li>New_Version - The old version URI of a DIACHRON entity.<br>
-     * <li>ingest - A flag which denotes whether the service is called due to a new dataset ingestion or not.
-     * <li>CCs - The set of complex change types which will be considered. If the set is empty, then all 
-     * the defined complex changes in the ontology of changes will be considered.
+     * <li>Ingest - A flag which denotes whether the service is called due to a
+     * new dataset ingestion or not.
+     * <li>Complex_Changes - The set of complex change types which will be
+     * considered. If the set is empty, then all the defined complex changes in
+     * the ontology of changes will be considered.
      * </ul>
-     * @return A Response instance which has a JSON-encoded entity content depending on the input 
-     * parameter of the method. We discriminate the following cases: <br>
+     * @return A Response instance which has a JSON-encoded entity content
+     * depending on the input parameter of the method. We discriminate the
+     * following cases: <br>
      * <ul>
-     * <li> Error code: <b>400</b> and entity content: { "Success" : false, "Message" : "JSON input message should have 
-     * exactly 4 arguments." } if the input parameter has more than four JSON parameters. 
-     * <li> Error code: <b>200</b> and entity content: { "Success" : true, "Message" : "Change detection among versions 
-     * Old_Version, New_Version was executed." } if the input parameter has the correct form. 
-     * <li> Error code: <b>400</b> and entity content: { "Success" : false, "Message" : "JSON input message could not be parsed." } 
-     * if the input parameter has not the correct form. 
+     * <li> Error code: <b>400</b> and entity content: { "Success" : false,
+     * "Message" : "JSON input message should have exactly 4 arguments." } if
+     * the input parameter has more than four JSON parameters.
+     * <li> Error code: <b>200</b> and entity content: { "Success" : true,
+     * "Message" : "Change detection among versions Old_Version, New_Version was
+     * executed." } if the input parameter has the correct form.
+     * <li> Error code: <b>400</b> and entity content: { "Success" : false,
+     * "Message" : "JSON input message could not be parsed." } if the input
+     * parameter has not the correct form.
      * </ul>
-     * 
+     *
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -92,10 +102,10 @@ public class ChangeDetectionImpl {
                         + "\"Message\" : \"" + message + "\" }";
                 return Response.status(400).entity(json).build();
             } else {
-                String oldVersion = (String) jsonObject.get("V1");
-                String newVersion = (String) jsonObject.get("V2");
-                boolean ingest = (Boolean) jsonObject.get("ingest");
-                JSONArray ccs = (JSONArray) jsonObject.get("CCs");
+                String oldVersion = (String) jsonObject.get("Old_Version");
+                String newVersion = (String) jsonObject.get("New_Version");
+                boolean ingest = (Boolean) jsonObject.get("Ingest");
+                JSONArray ccs = (JSONArray) jsonObject.get("Complex_Changes");
                 if (oldVersion == null || newVersion == null || ccs == null) {
                     throw new ParseException(-1);
                 }
@@ -112,10 +122,15 @@ public class ChangeDetectionImpl {
                     return Response.status(code).entity(json).build();
                 }
                 ///
+                String datasetUri = properties.getProperty("Dataset_Uri");
+                String changesOntologySchema = properties.getProperty("Changes_Ontology_Schema");
                 ChangesDetector detector = null;
                 try {
-                    detector = new ChangesDetector(properties);
-                } catch (ClassNotFoundException | RepositoryException | SQLException ex) {
+                    ChangesManager cManager = new ChangesManager(properties, datasetUri, oldVersion, newVersion, false);
+                    String changesOntology = cManager.getChangesOntology();
+                    cManager.terminate();
+                    detector = new ChangesDetector(properties, changesOntology, changesOntologySchema);
+                } catch (Exception ex) {
                     String json = "{ \"Success\" : false, "
                             + "\"Message\" : \"Exception Occured: " + ex.getMessage() + " \" }";
                     return Response.status(400).entity(json).build();
@@ -133,6 +148,7 @@ public class ChangeDetectionImpl {
                 detector.detectComplexChanges(oldVersion, newVersion, cChanges);
                 String json = "{ \"Success\" : true, "
                         + "\"Message\" : \"Change detection among versions <" + oldVersion + ">, <" + newVersion + "> was executed. \" }";
+                detector.terminate();
                 return Response.status(200).entity(json).build();
             }
         } catch (ParseException ex) {
@@ -144,19 +160,26 @@ public class ChangeDetectionImpl {
     }
 
     /**
-     * <b>GET</b> method which applies SPARQL queries on the ontology of changes and returns the results in various formats. <br>
+     * <b>GET</b> method which applies SPARQL queries on the ontology of changes
+     * and returns the results in various formats. <br>
      * <b>URL:</b> /diachron/change_detection?query={query1}&format={format1}
-     * @param <b>query</b> Query parameter which has a string value representing the requested SPARQL query.
-     * @param <b>format</b> Query parameter which refers on the requested format of the results. The formats which are 
-     * supported are: <b>xml</b>, <b>csv</b>, <b>tsv</b>, <b>json.</b>
-     * @return A Response instance which has a JSON-encoded entity content with the query results in the requested format. 
-     * We discriminate the following cases: <br>
+     *
+     * @param <b>query</b> Query parameter which has a string value representing
+     * the requested SPARQL query.
+     * @param <b>format</b> Query parameter which refers on the requested format
+     * of the results. The formats which are supported are: <b>xml</b>,
+     * <b>csv</b>, <b>tsv</b>, <b>json.</b>
+     * @return A Response instance which has a JSON-encoded entity content with
+     * the query results in the requested format. We discriminate the following
+     * cases: <br>
      * <ul>
-     * <li> Error code: <b>400</b> if the given SPARQL query contains syntax errors or there was an internal server issue. In any case, 
-     * the entity content explains the problem's category.
-     * <li> Error code: <b>200</b> and entity content with the query results with the requested format.
-     * <li> Error code: <b>406</b> and entity content "Invalid results format given." if the requested query results format is not 
-     * recognized. 
+     * <li> Error code: <b>400</b> if the given SPARQL query contains syntax
+     * errors or there was an internal server issue. In any case, the entity
+     * content explains the problem's category.
+     * <li> Error code: <b>200</b> and entity content with the query results
+     * with the requested format.
+     * <li> Error code: <b>406</b> and entity content "Invalid results format
+     * given." if the requested query results format is not recognized.
      * </ul>
      */
     @GET
@@ -217,31 +240,40 @@ public class ChangeDetectionImpl {
     }
 
     /**
-     * <b>POST</b> method which applies SPARQL queries on the ontology of changes and returns the results in various formats. <br>
+     * <b>POST</b> method which applies SPARQL queries on the ontology of
+     * changes and returns the results in various formats. <br>
      * <b>URL (partial):</b> /diachron/change_detection/query
-     * @param <b>inputMessage</b> : A JSON-encoded string which has the following form: <br>
+     *
+     * @param <b>inputMessage</b> : A JSON-encoded string which has the
+     * following form: <br>
      * { <br>
      * "Query" : "select ?s ?p ...", <br>
      * "Format" : "json", <br>
      * } <br>
      * where
      * <ul>
-     * <li>Query - A string which represents the SPARQL query which will be applied.<br>
-     * <li>Format - The format(MIME type) of the query results. The formats which are 
-     * supported are: <b>xml</b>, <b>csv</b>, <b>tsv</b>, <b>json.</b>
+     * <li>Query - A string which represents the SPARQL query which will be
+     * applied.<br>
+     * <li>Format - The format(MIME type) of the query results. The formats
+     * which are supported are: <b>xml</b>, <b>csv</b>, <b>tsv</b>, <b>json.</b>
      * </ul>
-     * @return A Response instance which has a JSON-encoded entity content with the query results in the requested format. 
-     * We discriminate the following cases: <br>
+     * @return A Response instance which has a JSON-encoded entity content with
+     * the query results in the requested format. We discriminate the following
+     * cases: <br>
      * <ul>
-     * <li> Error code: <b>400</b> if the given SPARQL query contains syntax errors or there was an internal server issue. In any case, 
-     * the entity content explains the problem's category.
-     * <li> Error code: <b>200</b> and entity content with the query results with the requested format.
-     * <li> Error code: <b>406</b> and entity content "Invalid results format given." if the requested query results format is not 
-     * recognized. 
-     * <li> Error code: <b>400</b> and entity content: { "Success" : false, "Message" : "JSON input message should have 
-     * exactly 2 arguments." } if the input parameter has more than two JSON parameters. 
-     * <li> Error code: <b>400</b> and entity content: { "Success" : false, "Message" : "JSON input message could not be parsed." } 
-     * if the input parameter has not the correct form. 
+     * <li> Error code: <b>400</b> if the given SPARQL query contains syntax
+     * errors or there was an internal server issue. In any case, the entity
+     * content explains the problem's category.
+     * <li> Error code: <b>200</b> and entity content with the query results
+     * with the requested format.
+     * <li> Error code: <b>406</b> and entity content "Invalid results format
+     * given." if the requested query results format is not recognized.
+     * <li> Error code: <b>400</b> and entity content: { "Success" : false,
+     * "Message" : "JSON input message should have exactly 2 arguments." } if
+     * the input parameter has more than two JSON parameters.
+     * <li> Error code: <b>400</b> and entity content: { "Success" : false,
+     * "Message" : "JSON input message could not be parsed." } if the input
+     * parameter has not the correct form.
      * </ul>
      */
     @POST

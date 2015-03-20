@@ -1,8 +1,6 @@
 INSERT INTO <changesOntology> {
 ?di a co:Delete_Instace;
-    co:delInst_p1 ?i;
-    co:old_version ?v1;
-    co:new_version ?v2.
+    co:delInst_p1 ?i.
 }
 WHERE {
 GRAPH <v1> { 

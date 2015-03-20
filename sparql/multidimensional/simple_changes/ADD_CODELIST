@@ -1,8 +1,6 @@
 INSERT INTO <changesOntology> {
 ?ac a co:Add_Codelist;
-    co:addClist_p1 ?c;
-    co:old_version ?v1;
-    co:new_version ?v2.
+    co:addClist_p1 ?c.
 }
 WHERE {
 GRAPH <v2> { 

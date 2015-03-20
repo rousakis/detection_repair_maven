@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?dtfi a co:Delete_Type_From_Individual;
       co:dtfi_p1 ?a;
-      co:dtfi_p2 ?b;
-      co:old_version ?v1;
-      co:new_version ?v2.
+      co:dtfi_p2 ?b.
 }
 WHERE {
 GRAPH <v1> { 

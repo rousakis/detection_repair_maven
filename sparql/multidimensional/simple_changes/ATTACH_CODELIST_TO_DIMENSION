@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?actd a co:Attach_Codelist_To_Dimension;
     co:attClistToDim_p1 ?d;
-	co:attClistToDim_p2 ?c;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:attClistToDim_p2 ?c.
 }
 WHERE {
 GRAPH <v2> { 
