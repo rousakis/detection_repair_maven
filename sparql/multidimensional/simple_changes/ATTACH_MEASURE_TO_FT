@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?amtft a co:Attach_Measure_To_FT;
     co:attMeasToFT_p1 ?m;
-	co:attMeasToFT_p2 ?ft;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:attMeasToFT_p2 ?ft.
 }
 WHERE {
 GRAPH <v2> { 

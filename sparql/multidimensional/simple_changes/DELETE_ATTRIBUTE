@@ -1,8 +1,6 @@
 INSERT INTO <changesOntology> {
 ?da a co:Delete_Attribute;
-	co:delAtt_p1 ?att;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:delAtt_p1 ?att.
 }
 WHERE {
 GRAPH <v1> { 

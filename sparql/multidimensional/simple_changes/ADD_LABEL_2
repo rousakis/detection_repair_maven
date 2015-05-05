@@ -2,9 +2,7 @@ INSERT INTO <changesOntology> {
 ?al a co:Add_Label;
     co:addLab_p1 ?s;
 	co:addLab_p2 ?p;
-	co:addLab_p3 ?o;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:addLab_p3 ?o.
 }
 WHERE {
 filter (?p = rdfs:label).

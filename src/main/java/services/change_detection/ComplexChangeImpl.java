@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
@@ -22,6 +24,7 @@ import org.diachron.detection.change_detection_utils.JSONMessagesParser;
 import org.diachron.detection.complex_change.CCDefinitionError.CODE;
 import org.diachron.detection.complex_change.CCManager;
 import org.diachron.detection.repositories.JDBCVirtuosoRep;
+import utils.Utils;
 
 /**
  * REST Web Service
@@ -33,7 +36,9 @@ public class ComplexChangeImpl {
 
     private static String propFile = "C:/config.properties";
 
-    /** Creates a new instance of ComplexChangeImpl */
+    /**
+     * Creates a new instance of ComplexChangeImpl
+     */
     public ComplexChangeImpl() {
     }
 
@@ -50,10 +55,11 @@ public class ComplexChangeImpl {
      * discriminate the following cases: <br>
      * <ul>
      * <li> Error code: <b>400</b> and entity content: { "Result" : false,
-     * "Message" : "...."} if there occurs an exception during the communication with Virtuoso Triple Store.
+     * "Message" : "...."} if there occurs an exception during the communication
+     * with Virtuoso Triple Store.
      * <li> Error code: <b>204</b> and entity content: { "Result" : false,
-     * "Message" : "Complex change was not found in the ontology of changes."} if the complex change is not
-     * found.
+     * "Message" : "Complex change was not found in the ontology of changes."}
+     * if the complex change is not found.
      * <li> Error code: <b>200</b> and entity content: { "Result" : true,
      * "Message" : "...." } where an example response message could be: <br>
      * { <br>
@@ -96,20 +102,16 @@ public class ComplexChangeImpl {
             String json = "{ \"Message\" : " + message + ", \"Result\" : " + result + " }";
             return Response.status(code).entity(json).build();
         }
-        String ip = prop.getProperty("Repository_IP");
-        String username = prop.getProperty("Repository_Username");
-        String password = prop.getProperty("Repository_Password");
-        int port = Integer.parseInt(prop.getProperty("Repository_Port"));
-        JDBCVirtuosoRep jdbcRep = null;
+        JDBCVirtuosoRep jdbcRep;
         try {
-            jdbcRep = new JDBCVirtuosoRep(ip, port, username, password);
-        } catch (ClassNotFoundException | SQLException ex) {
+            jdbcRep = new JDBCVirtuosoRep(prop);
+        } catch (ClassNotFoundException | SQLException | IOException ex) {
             result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
         }
-        String ontology = prop.getProperty("Changes_Ontology");
-        String query = "select ?json from <" + ontology + "> where { ?s co:name \"" + name + "\"; co:json ?json. }";
+        String ontologySchema = prop.getProperty("Changes_Ontology_Schema");
+        String query = "select ?json from <" + ontologySchema + "> where { ?s co:name \"" + name + "\"; co:json ?json. }";
         ResultSet res = jdbcRep.executeSparqlQuery(query, false);
         try {
             if (res.next()) {
@@ -158,7 +160,7 @@ public class ComplexChangeImpl {
         Properties properties = new Properties();
         String message = null;
         int code;
-        boolean result;
+        boolean result = false;
         try {
             properties.load(new FileInputStream(propFile));
 //            properties.load(this.getClass().getResourceAsStream(propFile));
@@ -167,15 +169,27 @@ public class ComplexChangeImpl {
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
         }
+        String changesOntologySchema = properties.getProperty("Changes_Ontology_Schema");
+        String datasetUri = properties.getProperty("Dataset_Uri");
         CCManager manager = null;
         try {
-            manager = new CCManager(properties);
+            manager = new CCManager(properties, changesOntologySchema);
         } catch (Exception ex) {
             result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
         }
-        result = manager.deleteComplexChange(name);
+        List<String> ontologies = Utils.getChangesOntologies(datasetUri, manager.getJdbcRep());
+        if (ontologies.isEmpty()) {
+            result = manager.deleteComplexChange(changesOntologySchema, name);
+        } else {
+            for (String ontology : ontologies) {
+                boolean tmp = manager.deleteComplexChange(ontology, name);
+                if (tmp) {
+                    result = tmp;
+                }
+            }
+        }
         message = null;
         if (result) {
             code = 200;
@@ -185,6 +199,7 @@ public class ComplexChangeImpl {
             message = "Complex Change was not found in the ontology of changes.";
         }
         String json = "{ \"Message\" : \"" + message + "\", \"Result\" : " + result + " }";
+        manager.terminate();
         return Response.status(code).entity(json).build();
     }
 
@@ -211,8 +226,15 @@ public class ComplexChangeImpl {
      * "Selection_Filter": "sc1:-superclass =
      * <http://www.geneontology.org/formats/oboInOwl#ObsoleteClass>", <br>
      * "Mapping_Filter": "", <br>
-     * "Join_Filter": "", <br>
-     * "Version_Filter": "" <br>
+     * "Join_Filter": "" <br>
+     * } <br>
+     * ], 
+     * "Version_Filters" : [ 
+     * { <br>
+     * "Subject" : "sc1:ADD_SUPERCLASS:-subject", <br>
+     * "Predicate" : "rdfs:subClassOf", <br>
+     * "Object" : "rdfs:Resource", <br>
+     * "Presence" : "EXISTS_IN_V2" <br>
      * } <br>
      * ] <br>
      * } <br>
@@ -235,10 +257,13 @@ public class ComplexChangeImpl {
      * parameters.
      * <li> Join_Filter: filter which expresses joins across different
      * parameters of simple changes.
-     * <li> Version_Filter: filter which expresses conditions over triples or
-     * URIs that should (not) exist in the old and/or the new version.
      * </ul>
-     * </ul>
+     * <li> Version_Filters: an array of version filters which have to be satisfied. 
+     * Each version filter is essentialy a triple which have to exist (or not) in either 
+     * new or old dataset version. Each part of a trile (subject, predicate, object) can 
+     * be a) a specific uri, b) a complex change parameter, c) a simple change parameter. 
+     * The presence of the triple is denoted by a flag which takes one of the values; 
+     * EXISTS_IN_V2, EXISTS_IN_V1, NOT_EXISTS_IN_V2, NOT_EXISTS_IN_V1
      * </ul>
      * @return A Response instance which has a JSON-encoded entity content
      * depending on the input parameter of the method. We discriminate the
@@ -274,8 +299,9 @@ public class ComplexChangeImpl {
             return Response.status(400).entity(json).build();
         }
         CCManager ccDef = null;
+        String changesOntologySchema = properties.getProperty("Changes_Ontology_Schema");
         try {
-            ccDef = JSONMessagesParser.createCCDefinition(properties, inputMessage);
+            ccDef = JSONMessagesParser.createCCDefinition(properties, inputMessage, changesOntologySchema);
         } catch (Exception ex) {
             boolean result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
@@ -305,8 +331,8 @@ public class ComplexChangeImpl {
                 result = false;
             }
             String json = "{ \"Message\" : \"" + message + "\", \"Success\" : " + result + " }";
+            ccDef.terminate();
             return Response.status(code).entity(json).build();
-
         }
     }
 }

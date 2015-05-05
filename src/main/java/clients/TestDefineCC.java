@@ -36,8 +36,7 @@ public class TestDefineCC {
                 + "\"Is_Optional\" : false, "
                 + "\"Selection_Filter\" : \"sc1:-superclass = <http://www.geneontology.org/formats/oboInOwl#ObsoleteClass>\", "
                 + "\"Mapping_Filter\" : \"\", "
-                + "\"Join_Filter\" : \"\", "
-                + "\"Version_Filter\" : \"\" "
+                + "\"Join_Filter\" : \"\" "
                 + "}, "
                 + "{"
                 + "\"Simple_Change\" : \"ADD_PROPERTY_INSTANCE\", "
@@ -45,9 +44,10 @@ public class TestDefineCC {
                 + "\"Is_Optional\" : true, "
                 + "\"Selection_Filter\" : \"sc2:-property = efo:reason_for_obsolescence\", "
                 + "\"Mapping_Filter\" : \"\", "
-                + "\"Join_Filter\" : \"sc1:-subclass = sc2:-subject\", "
-                + "\"Version_Filter\" : \"\" }"
-                + "]"
+                + "\"Join_Filter\" : \"sc1:-subclass = sc2:-subject\" "
+                + "} ], "
+                + " \"Version_Filters\" : [\n"
+                + " ]"
                 + "}";
 
         ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input);

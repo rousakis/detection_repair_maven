@@ -2,9 +2,7 @@ INSERT INTO <changesOntology> {
 ?agvto a co:Add_Generic_Value_To_Observation;
     co:addGenVToOb_p1 ?o;
 	co:addGenVToOb_p2 ?p;
-	co:addGenVToOb_p3 ?v;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:addGenVToOb_p3 ?v.
 }
 WHERE {
 GRAPH <v2> { 

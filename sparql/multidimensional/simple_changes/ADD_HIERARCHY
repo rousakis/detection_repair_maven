@@ -1,8 +1,6 @@
 INSERT INTO <changesOntology> {
 ?ah a co:Add_Hierarchy;
-    co:addH_p1 ?h;
-    co:old_version ?v1;
-    co:new_version ?v2.
+    co:addH_p1 ?h.
 }
 WHERE {
 GRAPH <v2> { 

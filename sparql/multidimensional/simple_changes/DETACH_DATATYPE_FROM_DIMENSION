@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?ddfd a co:Detach_Datatype_From_Dimension;
     co:detDtypeFromDim_p1 ?d;
-	co:detDtypeFromDim_p2 ?t;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:detDtypeFromDim_p2 ?t.
 }
 WHERE {
 GRAPH <v1> { 

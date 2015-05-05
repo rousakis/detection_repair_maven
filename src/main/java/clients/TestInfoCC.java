@@ -19,7 +19,7 @@ public class TestInfoCC {
         Client c = Client.create();
         System.out.println("Testing Fetch CC Service...");
         String ip = "139.91.183.48:8181";
-//        ip = "139.91.183.65:8080";
+        ip = "localhost:8181";
         String url = "http://" + ip + "/ForthMaven-1.0/diachron/complex_change";
         WebResource r = c.resource(url);
         String ccName = "Mark_as_Obsolete_v2";

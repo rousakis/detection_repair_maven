@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?difc a co:Detach_Instance_From_Codelist;
     co:detInstFromClist_p1 ?c;
-	co:detInstFromClist_p2 ?i;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:detInstFromClist_p2 ?i.
 }
 WHERE {
 GRAPH <v1> { 
