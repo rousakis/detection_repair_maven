@@ -24,6 +24,7 @@ import org.diachron.detection.change_detection_utils.JSONMessagesParser;
 import org.diachron.detection.complex_change.CCDefinitionError.CODE;
 import org.diachron.detection.complex_change.CCManager;
 import org.diachron.detection.repositories.JDBCVirtuosoRep;
+import utils.PropertiesManager;
 import utils.Utils;
 
 /**
@@ -34,7 +35,7 @@ import utils.Utils;
 @Path("complex_change")
 public class ComplexChangeImpl {
 
-    private static String propFile = "C:/config.properties";
+    PropertiesManager propertiesManager = PropertiesManager.getPropertiesManager();
 
     /**
      * Creates a new instance of ComplexChangeImpl
@@ -91,26 +92,16 @@ public class ComplexChangeImpl {
         boolean result = false;
         String message = null;
         int code = 0;
-        Properties prop = new Properties();
-        try {
-            prop.load(new FileInputStream(propFile));
-//            prop.load(this.getClass().getResourceAsStream(propFile));
-        } catch (IOException ex) {
-            message = ex.getMessage();
-            result = false;
-            code = 400;
-            String json = "{ \"Message\" : " + message + ", \"Result\" : " + result + " }";
-            return Response.status(code).entity(json).build();
-        }
+
         JDBCVirtuosoRep jdbcRep;
         try {
-            jdbcRep = new JDBCVirtuosoRep(prop);
+            jdbcRep = new JDBCVirtuosoRep(propertiesManager.getProperties());
         } catch (ClassNotFoundException | SQLException | IOException ex) {
             result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
         }
-        String ontologySchema = prop.getProperty("Changes_Ontology_Schema");
+        String ontologySchema = propertiesManager.getPropertyValue("Changes_Ontology_Schema");
         String query = "select ?json from <" + ontologySchema + "> where { ?s co:name \"" + name + "\"; co:json ?json. }";
         ResultSet res = jdbcRep.executeSparqlQuery(query, false);
         try {
@@ -157,23 +148,15 @@ public class ComplexChangeImpl {
     @Path("{com_change}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCCJSON(@PathParam("com_change") String name) {
-        Properties properties = new Properties();
         String message = null;
         int code;
         boolean result = false;
-        try {
-            properties.load(new FileInputStream(propFile));
-//            properties.load(this.getClass().getResourceAsStream(propFile));
-        } catch (IOException ex) {
-            result = false;
-            String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
-            return Response.status(400).entity(json).build();
-        }
-        String changesOntologySchema = properties.getProperty("Changes_Ontology_Schema");
-        String datasetUri = properties.getProperty("Dataset_Uri");
+
+        String changesOntologySchema = propertiesManager.getPropertyValue("Changes_Ontology_Schema");
+        String datasetUri = propertiesManager.getPropertyValue("Dataset_Uri");
         CCManager manager = null;
         try {
-            manager = new CCManager(properties, changesOntologySchema);
+            manager = new CCManager(propertiesManager.getProperties(), changesOntologySchema);
         } catch (Exception ex) {
             result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
@@ -289,19 +272,11 @@ public class ComplexChangeImpl {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response defineCCJSON(String inputMessage) {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(propFile));
-//            properties.load(this.getClass().getResourceAsStream(propFile));
-        } catch (IOException ex) {
-            boolean result = false;
-            String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
-            return Response.status(400).entity(json).build();
-        }
+
         CCManager ccDef = null;
-        String changesOntologySchema = properties.getProperty("Changes_Ontology_Schema");
+        String changesOntologySchema = propertiesManager.getPropertyValue("Changes_Ontology_Schema");
         try {
-            ccDef = JSONMessagesParser.createCCDefinition(properties, inputMessage, changesOntologySchema);
+            ccDef = JSONMessagesParser.createCCDefinition(propertiesManager.getProperties(), inputMessage, changesOntologySchema);
         } catch (Exception ex) {
             boolean result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
