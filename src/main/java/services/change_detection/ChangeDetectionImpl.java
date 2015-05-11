@@ -35,6 +35,7 @@ import org.openrdf.query.resultio.text.csv.SPARQLResultsCSVWriter;
 import org.openrdf.query.resultio.text.tsv.SPARQLResultsTSVWriter;
 import org.openrdf.repository.RepositoryException;
 import org.diachron.detection.repositories.SesameVirtRep;
+import utils.PropertiesManager;
 
 /**
  * REST Web Service
@@ -44,7 +45,7 @@ import org.diachron.detection.repositories.SesameVirtRep;
 @Path("change_detection")
 public class ChangeDetectionImpl {
 
-    private static String propFile = "C:/config.properties";
+    PropertiesManager propertiesManager = PropertiesManager.getPropertiesManager();
 
     public ChangeDetectionImpl() {
     }
@@ -110,26 +111,14 @@ public class ChangeDetectionImpl {
                     throw new ParseException(-1);
                 }
                 ///
-                Properties properties = new Properties();
-                try {
-                    properties.load(new FileInputStream(propFile));
-//                    properties.load(this.getClass().getResourceAsStream(propFile));
-                } catch (IOException ex) {
-                    String message = ex.getMessage();
-                    boolean result = false;
-                    int code = 400;
-                    String json = "{ \"Message\" : " + message + ", \"Result\" : " + result + " }";
-                    return Response.status(code).entity(json).build();
-                }
-                ///
-                String datasetUri = properties.getProperty("Dataset_Uri");
-                String changesOntologySchema = properties.getProperty("Changes_Ontology_Schema");
+                String datasetUri = propertiesManager.getPropertyValue("Dataset_Uri");
+                String changesOntologySchema = propertiesManager.getPropertyValue("Changes_Ontology_Schema");
                 ChangesDetector detector = null;
                 try {
-                    ChangesManager cManager = new ChangesManager(properties, datasetUri, oldVersion, newVersion, false);
+                    ChangesManager cManager = new ChangesManager(propertiesManager.getProperties(), datasetUri, oldVersion, newVersion, false);
                     String changesOntology = cManager.getChangesOntology();
                     cManager.terminate();
-                    detector = new ChangesDetector(properties, changesOntology, changesOntologySchema);
+                    detector = new ChangesDetector(propertiesManager.getProperties(), changesOntology, changesOntologySchema);
                 } catch (Exception ex) {
                     String json = "{ \"Success\" : false, "
                             + "\"Message\" : \"Exception Occured: " + ex.getMessage() + " \" }";
@@ -186,16 +175,14 @@ public class ChangeDetectionImpl {
     @Produces(MediaType.APPLICATION_JSON)
     public Response queryChangesOntologyGet(@QueryParam("query") String query,
             @QueryParam("format") String format) {
-        Properties prop = new Properties();
         OutputStream output = null;
         try {
-            prop.load(new FileInputStream(propFile));
 //            prop.load(this.getClass().getResourceAsStream(propFile));
-            String ip = prop.getProperty("Repository_IP");
-            String username = prop.getProperty("Repository_Username");
-            String password = prop.getProperty("Repository_Password");
-            String changesOntol = prop.getProperty("Changes_Ontology");
-            int port = Integer.parseInt(prop.getProperty("Repository_Port"));
+            String ip = propertiesManager.getPropertyValue("Repository_IP");
+            String username = propertiesManager.getPropertyValue("Repository_Username");
+            String password = propertiesManager.getPropertyValue("Repository_Password");
+            String changesOntol = propertiesManager.getPropertyValue("Changes_Ontology");
+            int port = Integer.parseInt(propertiesManager.getPropertyValue("Repository_Port"));
             SesameVirtRep sesame = new SesameVirtRep(ip, port, username, password);
             query = query.replace(" where ", " from <" + changesOntol + "> ");
             TupleQuery tupleQuery = sesame.getCon().prepareTupleQuery(QueryLanguage.SPARQL, query);
@@ -232,8 +219,6 @@ public class ChangeDetectionImpl {
             }
             tupleQuery.evaluate(writer);
         } catch (MalformedQueryException | QueryEvaluationException | TupleQueryResultHandlerException | RepositoryException ex) {
-            return Response.status(400).entity(ex.getMessage()).build();
-        } catch (IOException ex) {
             return Response.status(400).entity(ex.getMessage()).build();
         }
         return Response.status(200).entity(output.toString()).build();
@@ -297,14 +282,12 @@ public class ChangeDetectionImpl {
                     throw new ParseException(-1);
                 }
                 ///
-                Properties prop = new Properties();
-                prop.load(new FileInputStream(propFile));
 //                prop.load(this.getClass().getResourceAsStream(propFile));
-                String ip = prop.getProperty("Repository_IP");
-                String username = prop.getProperty("Repository_Username");
-                String password = prop.getProperty("Repository_Password");
-                String changesOntol = prop.getProperty("Changes_Ontology");
-                int port = Integer.parseInt(prop.getProperty("Repository_Port"));
+                String ip = propertiesManager.getPropertyValue("Repository_IP");
+                String username = propertiesManager.getPropertyValue("Repository_Username");
+                String password = propertiesManager.getPropertyValue("Repository_Password");
+                String changesOntol = propertiesManager.getPropertyValue("Changes_Ontology");
+                int port = Integer.parseInt(propertiesManager.getPropertyValue("Repository_Port"));
                 SesameVirtRep sesame = new SesameVirtRep(ip, port, username, password);
                 query = query.replace(" where ", " from <" + changesOntol + "> ");
                 TupleQuery tupleQuery = sesame.getCon().prepareTupleQuery(QueryLanguage.SPARQL, query);
@@ -343,8 +326,6 @@ public class ChangeDetectionImpl {
                 tupleQuery.evaluate(writer);
             }
         } catch (MalformedQueryException | QueryEvaluationException | TupleQueryResultHandlerException | RepositoryException ex) {
-            return Response.status(400).entity(ex.getMessage()).build();
-        } catch (IOException ex) {
             return Response.status(400).entity(ex.getMessage()).build();
         } catch (ParseException ex) {
             String message = "JSON input message could not be parsed.";

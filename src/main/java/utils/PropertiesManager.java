@@ -24,7 +24,9 @@ public class PropertiesManager {
                 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
                 InputStream input = classLoader.getResourceAsStream(initFilePath);
                 prop = new Properties();
-                prop.load(input);
+                if (input != null) {
+                    prop.load(input);
+                }
 
                 if (System.getProperty("diachron.config.location") != null) {
                     InputStream overideInput = new FileInputStream(new File(System.getProperty("diachron.config.location")));
@@ -34,8 +36,6 @@ public class PropertiesManager {
                 }
 
                 propManager = new PropertiesManager();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(PropertiesManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(PropertiesManager.class.getName()).log(Level.SEVERE, null, ex);
             }
