@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?dcfd a co:Detach_Codelist_From_Dimension;
     co:detClistFromDim_p1 ?d;
-	co:detClistFromDim_p2 ?c.
+	co:detClistFromDim_p2 ?c;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> { 

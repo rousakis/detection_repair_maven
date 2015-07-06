@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?difp a co:Detach_Instance_From_Parent;
     co:detInstFromPar_p1 ?i;
-	co:detInstFromPar_p2 ?p.
+	co:detInstFromPar_p2 ?p;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> { 

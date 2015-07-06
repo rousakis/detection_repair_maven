@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?dhfd a co:Detach_Hierarchy_From_Dimension;
     co:detHierFromDim_p1 ?d;
-	co:detHierFromDim_p2 ?h.
+	co:detHierFromDim_p2 ?h;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> { 

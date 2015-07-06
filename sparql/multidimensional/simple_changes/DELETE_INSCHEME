@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?dis a co:Delete_inScheme;
     co:delInSch_p1 ?x;
-	co:delInSch_p2 ?s.
+	co:delInSch_p2 ?s;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> { 

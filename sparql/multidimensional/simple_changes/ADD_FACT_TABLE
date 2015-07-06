@@ -1,6 +1,8 @@
 INSERT INTO <changesOntology> {
 ?aft a co:Add_Fact_Table;
-    co:addFT_p1 ?f.
+    co:addFT_p1 ?f;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v2> { 

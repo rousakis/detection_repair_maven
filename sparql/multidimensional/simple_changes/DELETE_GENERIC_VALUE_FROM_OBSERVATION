@@ -2,7 +2,9 @@ INSERT INTO <changesOntology> {
 ?dgvfo a co:Delete_Generic_Value_From_Observation;
     co:addGenVFromOb_p1 ?o;
 	co:addGenVFromOb_p2 ?p;
-	co:addGenVFromOb_p3 ?v.
+	co:addGenVFromOb_p3 ?v;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> { 

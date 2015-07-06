@@ -2,7 +2,9 @@ INSERT INTO <changesOntology> {
 ?amvto a co:Add_Measure_Value_To_Observation;
     co:addMeasVToOb_p1 ?o;
 	co:addMeasVToOb_p2 ?m;
-	co:addMeasVToOb_p3 ?v.
+	co:addMeasVToOb_p3 ?v;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v2> { 

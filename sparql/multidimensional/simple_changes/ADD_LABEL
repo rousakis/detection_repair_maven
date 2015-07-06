@@ -2,7 +2,9 @@ INSERT INTO <changesOntology> {
 ?al a co:Add_Label;
     co:addLab_p1 ?s;
 	co:addLab_p2 ?p;
-	co:addLab_p3 ?o.
+	co:addLab_p3 ?o;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v2> {
@@ -12,9 +14,6 @@ UNION
 ?s ?p ?o
 }
 FILTER NOT EXISTS { GRAPH <v1> {
-{?p rdfs:subPropertyOf rdfs:label} 
-UNION 
-{filter (?p = rdfs:label).} 
 ?s ?p ?o
 }
 }

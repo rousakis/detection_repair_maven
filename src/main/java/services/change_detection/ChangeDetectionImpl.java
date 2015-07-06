@@ -7,8 +7,8 @@ package services.change_detection;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.SQLException;
 import java.util.Properties;
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,8 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.diachron.detection.change_detection_utils.ChangesDetector;
-import org.diachron.detection.change_detection_utils.ChangesManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,6 +33,10 @@ import org.openrdf.query.resultio.text.csv.SPARQLResultsCSVWriter;
 import org.openrdf.query.resultio.text.tsv.SPARQLResultsTSVWriter;
 import org.openrdf.repository.RepositoryException;
 import org.diachron.detection.repositories.SesameVirtRep;
+import org.diachron.detection.utils.ChangesDetector;
+import org.diachron.detection.utils.ChangesManager;
+import org.diachron.detection.utils.SCDUtils;
+import utils.Utils;
 
 /**
  * REST Web Service
@@ -113,7 +115,7 @@ public class ChangeDetectionImpl {
                 Properties properties = new Properties();
                 try {
                     properties.load(new FileInputStream(propFile));
-//                    properties.load(this.getClass().getResourceAsStream(propFile));
+//                    properties.load(context.getResourceAsStream(propFile));
                 } catch (IOException ex) {
                     String message = ex.getMessage();
                     boolean result = false;
@@ -122,8 +124,8 @@ public class ChangeDetectionImpl {
                     return Response.status(code).entity(json).build();
                 }
                 ///
-                String datasetUri = properties.getProperty("Dataset_Uri");
-                String changesOntologySchema = properties.getProperty("Changes_Ontology_Schema");
+                String datasetUri = properties.getProperty("Dataset_URI");
+                String changesOntologySchema = Utils.getDatasetSchema(datasetUri);
                 ChangesDetector detector = null;
                 try {
                     ChangesManager cManager = new ChangesManager(properties, datasetUri, oldVersion, newVersion, false);
@@ -136,7 +138,7 @@ public class ChangeDetectionImpl {
                     return Response.status(400).entity(json).build();
                 }
                 if (ingest) {
-                    detector.detectSimpleChanges(oldVersion, newVersion);
+                    detector.detectSimpleChanges(oldVersion, newVersion, null);
                 }
                 String[] cChanges = {};
                 if (!ccs.isEmpty()) {
@@ -190,7 +192,7 @@ public class ChangeDetectionImpl {
         OutputStream output = null;
         try {
             prop.load(new FileInputStream(propFile));
-//            prop.load(this.getClass().getResourceAsStream(propFile));
+//            prop.load(context.getResourceAsStream(propFile));
             String ip = prop.getProperty("Repository_IP");
             String username = prop.getProperty("Repository_Username");
             String password = prop.getProperty("Repository_Password");
@@ -299,7 +301,6 @@ public class ChangeDetectionImpl {
                 ///
                 Properties prop = new Properties();
                 prop.load(new FileInputStream(propFile));
-//                prop.load(this.getClass().getResourceAsStream(propFile));
                 String ip = prop.getProperty("Repository_IP");
                 String username = prop.getProperty("Repository_Username");
                 String password = prop.getProperty("Repository_Password");
@@ -309,7 +310,6 @@ public class ChangeDetectionImpl {
                 query = query.replace(" where ", " from <" + changesOntol + "> ");
                 TupleQuery tupleQuery = sesame.getCon().prepareTupleQuery(QueryLanguage.SPARQL, query);
                 output = new OutputStream() {
-
                     private StringBuilder string = new StringBuilder();
 
                     @Override

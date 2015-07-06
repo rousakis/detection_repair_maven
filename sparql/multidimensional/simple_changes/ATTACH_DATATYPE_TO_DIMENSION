@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?adtd a co:Attach_Datatype_To_Dimension;
     co:attDtypeToDim_p1 ?d;
-	co:attDtypeToDim_p2 ?t.
+	co:attDtypeToDim_p2 ?t;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v2> { 

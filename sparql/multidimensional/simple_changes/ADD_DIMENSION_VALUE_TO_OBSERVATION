@@ -2,7 +2,9 @@ INSERT INTO <changesOntology> {
 ?advto a co:Add_Dimension_Value_To_Observation;
     co:addDimVToOb_p1 ?o;
 	co:addDimVToOb_p2 ?d;
-	co:addDimVToOb_p3 ?v.
+	co:addDimVToOb_p3 ?v;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v2> { 

@@ -22,7 +22,7 @@ public class TestInfoCC {
         ip = "localhost:8181";
         String url = "http://" + ip + "/ForthMaven-1.0/diachron/complex_change";
         WebResource r = c.resource(url);
-        String ccName = "Mark_as_Obsolete_v2";
+        String ccName = "Add Synonym";
         ClientResponse response = r.path(ccName).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         System.out.println(response.getEntity(String.class));
         System.out.println(response.getStatus());

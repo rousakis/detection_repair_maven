@@ -2,7 +2,9 @@ INSERT INTO <changesOntology> {
 ?dup a co:Delete_Unknown_Property;
     co:delUnProp_p1 ?s;
 	co:delUnProp_p2 ?p;
-	co:delUnProp_p3 ?o.
+	co:delUnProp_p3 ?o;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> {

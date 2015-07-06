@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?ar a co:Add_Relevancy;
     co:addRel_p1 ?x;
-	co:addRel_p2 ?y.
+	co:addRel_p2 ?y;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v2> { 

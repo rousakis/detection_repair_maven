@@ -2,6 +2,8 @@ INSERT INTO <changesOntology> {
 ?as a co:Add_Synonym;
     co:as_p1 ?a;
     co:as_p2 ?x;
+    co:old_version ?v1;
+    co:new_version ?v2;
     co:consumes ?api.
 } 
 WHERE {
@@ -9,12 +11,17 @@ GRAPH <changesOntology> {
 ?api a co:Add_Property_Instance;
      co:api_p1 ?api1;
      co:api_p2 ?api2;
-     co:api_p3 ?api3.
-FILTER NOT EXISTS { ?cc co:consumes ?api. }.
+     co:api_p3 ?api3;
+     co:old_version ?v1;
+     co:new_version ?v2.
+FILTER NOT EXISTS { ?as co:consumes ?api. }.
 FILTER(?api2 = efo:alternative_term).
 BIND (?api1 as ?a).
 BIND (?api3 as ?x).
-BIND(concat(str(?a), str(?x), 'changesOntology') as ?url) .
+BIND(concat(str(?a), str(?x), str(?v1), str(?v2)) as ?url) .
+filter ('v1'=?v1).
+filter ('v2'=?v2).
+
 BIND(IRI(CONCAT('http://as/',SHA1(?url))) AS ?as).
 }
 }

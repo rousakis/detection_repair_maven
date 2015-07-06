@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?detft a co:Detach_Observation_To_DS;
     co:detObFromDS_p1 ?o;
-	co:detObFromDS_p2 ?ft.
+	co:detObFromDS_p2 ?ft;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> { 

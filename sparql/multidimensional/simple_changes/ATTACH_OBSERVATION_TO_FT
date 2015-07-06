@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?aotft a co:Attach_Observation_To_FT;
     co:attObToFT_p1 ?o;
-	co:attObToFT_p2 ?ft.
+	co:attObToFT_p2 ?ft;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v2> { 

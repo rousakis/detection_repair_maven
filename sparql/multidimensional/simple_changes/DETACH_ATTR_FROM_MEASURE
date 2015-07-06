@@ -1,7 +1,9 @@
 INSERT INTO <changesOntology> {
 ?dafm a co:Detach_Attr_From_Measure;
     co:detAttFromMeas_p1 ?m;
-	co:dafm_p2 ?a.
+	co:dafm_p2 ?a;
+    co:old_version ?v1;
+    co:new_version ?v2.
 }
 WHERE {
 GRAPH <v1> { 
