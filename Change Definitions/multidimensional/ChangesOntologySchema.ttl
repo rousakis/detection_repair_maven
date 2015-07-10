@@ -1,0 +1,1245 @@
+@prefix bif: <bif:> .
+@prefix co: <http://www.diachron-fp7.eu/changes/> .
+@prefix dawgt: <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix dbpprop: <http://dbpedia.org/property/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix diachron: <http://www.diachron-fp7.eu/resource/> .
+@prefix efo: <http://www.ebi.ac.uk/efo/> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions/#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix go: <http://purl.org/obo/owl/GO#> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix me: <http://www.methings.eu/> .
+@prefix mesh: <http://purl.org/commons/record/mesh/> .
+@prefix mf: <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#> .
+@prefix nci: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#> .
+@prefix obo: <http://www.geneontology.org/formats/oboInOwl#> .
+@prefix ogc: <http://www.opengis.net/> .
+@prefix ogcgml: <http://www.opengis.net/ont/gml#> .
+@prefix ogcgs: <http://www.opengis.net/ont/geosparql#> .
+@prefix ogcgsf: <http://www.opengis.net/def/function/geosparql/> .
+@prefix ogcgsr: <http://www.opengis.net/def/rule/geosparql/> .
+@prefix ogcsf: <http://www.opengis.net/ont/sf#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix product: <http://www.buy.com/rss/module/productV2/> .
+@prefix protseq: <http://purl.org/science/protein/bysequence/> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfa: <http://www.w3.org/ns/rdfa#> .
+@prefix rdfdf: <http://www.openlinksw.com/virtrdf-data-formats#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sc: <http://purl.org/science/owl/sciencecommons/> .
+@prefix scovo: <http://purl.org/NET/scovo#> .
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
+@prefix sioc: <http://rdfs.org/sioc/ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sql: <sql:> .
+@prefix vcard: <http://www.w3.org/2001/vcard-rdf/3.0#> .
+@prefix vcard2006: <http://www.w3.org/2006/vcard/ns#> .
+@prefix virtcxml: <http://www.openlinksw.com/schemas/virtcxml#> .
+@prefix virtrdf: <http://www.openlinksw.com/schemas/virtrdf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix xf: <http://www.w3.org/2004/07/xpath-functions> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix xsl10: <http://www.w3.org/XSL/Transform/1.0> .
+@prefix xsl1999: <http://www.w3.org/1999/XSL/Transform> .
+@prefix xslwd: <http://www.w3.org/TR/WD-xsl> .
+@prefix yago: <http://dbpedia.org/class/yago/> .
+
+co:priority a rdf:Property .
+
+co:name a rdf:Property .
+
+co:sparql a rdf:Property .
+
+co:Add_Label a rdfs:Class .
+
+co:al_p1 a rdf:Property .
+
+co:al_p2 a rdf:Property .
+
+co:ad_p1 a rdf:Property .
+
+co:ad_p2 a rdf:Property .
+
+co:ar_p1 a rdf:Property .
+
+co:ar_p2 a rdf:Property .
+
+co:Delete_Label a rdfs:Class .
+
+co:dl_p1 a rdf:Property .
+
+co:dl_p2 a rdf:Property .
+
+co:dr_p1 a rdf:Property .
+
+co:dr_p2 a rdf:Property .
+
+co:consumes a rdf:Property .
+
+co:json a rdf:Property .
+
+co:Add_Generic_Value_To_Observation a rdfs:Class .
+
+co:agvto_p3 a rdf:Property .
+
+co:agvto_p2 a rdf:Property .
+
+co:agvto_p1 a rdf:Property .
+
+co:Delete_Generic_Value_From_Observation a rdfs:Class .
+
+co:dgvfo_p1 a rdf:Property .
+
+co:dgvfo_p2 a rdf:Property .
+
+co:dgvfo_p3 a rdf:Property .
+
+co:Add_inScheme a rdfs:Class .
+
+co:ais_p2 a rdf:Property .
+
+co:ais_p1 a rdf:Property .
+
+co:Delete_inScheme a rdfs:Class .
+
+co:dis_p2 a rdf:Property .
+
+co:dis_p1 a rdf:Property .
+
+co:Add_Instance_To_Parent a rdfs:Class .
+
+co:Delete_Instance_From_Parent a rdfs:Class .
+
+co:Add_Attribute a rdfs:Class .
+
+co:Add_Codelist a rdfs:Class .
+
+co:Add_Datatype a rdfs:Class .
+
+co:Add_Dimension a rdfs:Class .
+
+co:Add_Dimension_Value_To_Observation a rdfs:Class .
+
+co:Add_Fact_Table a rdfs:Class .
+
+co:Add_Generic_Attribute a rdfs:Class .
+
+co:Add_Hierarchy a rdfs:Class .
+
+co:Add_Instance a rdfs:Class .
+
+co:Add_Measure a rdfs:Class .
+
+co:Add_Measure_Value_To_Observation a rdfs:Class .
+
+co:Add_Observation a rdfs:Class .
+
+co:Add_Relevancy a rdfs:Class .
+
+co:Add_Unknown_Property a rdfs:Class .
+
+co:Attach_Attr_To_Dimension a rdfs:Class .
+
+co:Attach_Codelist_To_Dimension a rdfs:Class .
+
+co:Attach_Datatype_To_Dimension a rdfs:Class .
+
+co:Attach_Dimension_To_FT a rdfs:Class .
+
+co:Attach_Hierarchy_To_Dimension a rdfs:Class .
+
+co:Attach_Instance_To_Codelist a rdfs:Class .
+
+co:Attach_Instance_To_Hierarchy a rdfs:Class .
+
+co:Attach_Instance_To_Parent a rdfs:Class .
+
+co:Attach_Measure_To_FT a rdfs:Class .
+
+co:Attach_Observation_To_FT a rdfs:Class .
+
+co:Attach_Type_To_Measure a rdfs:Class .
+
+co:Delete_Attribute a rdfs:Class .
+
+co:Delete_Codelist a rdfs:Class .
+
+co:Delete_Datatype a rdfs:Class .
+
+co:Delete_Dimension a rdfs:Class .
+
+co:Delete_Dimension_Value_From_Observation a rdfs:Class .
+
+co:Delete_Fact_Table a rdfs:Class .
+
+co:Delete_Generic_Attribute a rdfs:Class .
+
+co:Delete_Hierarchy a rdfs:Class .
+
+co:Delete_Instance a rdfs:Class .
+
+co:Delete_Measure a rdfs:Class .
+
+co:Delete_Measure_Value_From_Observation a rdfs:Class .
+
+co:Delete_Observation a rdfs:Class .
+
+co:Delete_Relevancy a rdfs:Class .
+
+co:Delete_Unknown_Property a rdfs:Class .
+
+co:Detach_Attr_From_Dimension a rdfs:Class .
+
+co:Detach_Codelist_From_Dimension a rdfs:Class .
+
+co:Detach_Datatype_From_Dimension a rdfs:Class .
+
+co:Detach_Dimension_From_FT a rdfs:Class .
+
+co:Detach_Hierarchy_From_Dimension a rdfs:Class .
+
+co:Detach_Instance_From_Codelist a rdfs:Class .
+
+co:Detach_Instance_From_Parent a rdfs:Class .
+
+co:Detach_Measure_From_FT a rdfs:Class .
+
+co:Detach_Observation_From_FT a rdfs:Class .
+
+co:Detach_Type_From_Measure a rdfs:Class .
+
+co:aa_p1 a rdf:Property .
+
+co:aatd_p1 a rdf:Property .
+
+co:aatd_p2 a rdf:Property .
+
+co:ac_p1 a rdf:Property .
+
+co:actd_p1 a rdf:Property .
+
+co:actd_p2 a rdf:Property .
+
+co:adim_p1 a rdf:Property .
+
+co:adtd_p1 a rdf:Property .
+
+co:adtd_p2 a rdf:Property .
+
+co:adtft_p1 a rdf:Property .
+
+co:adtft_p2 a rdf:Property .
+
+co:advto_p1 a rdf:Property .
+
+co:advto_p2 a rdf:Property .
+
+co:aft_p1 a rdf:Property .
+
+co:aga_p1 a rdf:Property .
+
+co:aga_p2 a rdf:Property .
+
+co:ah_p1 a rdf:Property .
+
+co:ahtd_p1 a rdf:Property .
+
+co:ahtd_p2 a rdf:Property .
+
+co:ai_p1 a rdf:Property .
+
+co:aitc_p1 a rdf:Property .
+
+co:aitc_p2 a rdf:Property .
+
+co:aith_p1 a rdf:Property .
+
+co:aith_p2 a rdf:Property .
+
+co:aitp_p1 a rdf:Property .
+
+co:aitp_p2 a rdf:Property .
+
+co:al_p3 a rdf:Property .
+
+co:am_p1 a rdf:Property .
+
+co:amtft_p1 a rdf:Property .
+
+co:amtft_p2 a rdf:Property .
+
+co:amvto_p1 a rdf:Property .
+
+co:amvto_p2 a rdf:Property .
+
+co:ao_p1 a rdf:Property .
+
+co:aotft_p1 a rdf:Property .
+
+co:aotft_p2 a rdf:Property .
+
+co:attm_p1 a rdf:Property .
+
+co:attm_p2 a rdf:Property .
+
+co:aup_p1_p1 a rdf:Property .
+
+co:aup_p1_p2 a rdf:Property .
+
+co:aup_p1_p3 a rdf:Property .
+
+co:da_p1 a rdf:Property .
+
+co:dc_p1 a rdf:Property .
+
+co:dcfd_p1 a rdf:Property .
+
+co:ddfd_p1 a rdf:Property .
+
+co:ddfd_p2 a rdf:Property .
+
+co:ddfft_p1 a rdf:Property .
+
+co:ddfft_p2 a rdf:Property .
+
+co:ddim_p1 a rdf:Property .
+
+co:ddvfo_p1 a rdf:Property .
+
+co:ddvfo_p2 a rdf:Property .
+
+co:dft_p1 a rdf:Property .
+
+co:dga_p1 a rdf:Property .
+
+co:dga_p2 a rdf:Property .
+
+co:dh_p1 a rdf:Property .
+
+co:dhfd_p1 a rdf:Property .
+
+co:dhfd_p2 a rdf:Property .
+
+co:di_p1 a rdf:Property .
+
+co:difc_p1 a rdf:Property .
+
+co:difc_p2 a rdf:Property .
+
+co:difp_p1 a rdf:Property .
+
+co:difp_p2 a rdf:Property .
+
+co:dl_p3 a rdf:Property .
+
+co:dm_p1 a rdf:Property .
+
+co:dmfft_p1 a rdf:Property .
+
+co:dmfft_p2 a rdf:Property .
+
+co:dmvfo_p1 a rdf:Property .
+
+co:dmvfo_p2 a rdf:Property .
+
+co:do_p1 a rdf:Property .
+
+co:dofft_p1 a rdf:Property .
+
+co:dofft_p2 a rdf:Property .
+
+co:dtfm_p1 a rdf:Property .
+
+co:dtfm_p2 a rdf:Property .
+
+co:dup_p1_p1 a rdf:Property .
+
+co:dup_p1_p2 a rdf:Property .
+
+co:dup_p1_p3 a rdf:Property .
+
+co:Attach_Attr_To_Measure a rdfs:Class .
+
+co:aatm_p1 a rdf:Property .
+
+co:aatm_p2 a rdf:Property .
+
+co:Detach_Attr_From_Measure a rdfs:Class .
+
+co:dafm_p1 a rdf:Property .
+
+co:dafm_p2 a rdf:Property .
+
+co:Detach_Instance_From_Hierarchy a rdfs:Class .
+
+co:difh_p1 a rdf:Property .
+
+co:difh_p2 a rdf:Property .
+
+co:priority rdfs:domain co:Change .
+
+co:name rdfs:domain co:Change .
+
+co:sparql rdfs:domain co:Complex_Change .
+
+co:al_p1 rdfs:domain co:Add_Label .
+
+co:al_p2 rdfs:domain co:Add_Label .
+
+co:ad_p1 rdfs:domain co:Add_Datatype .
+
+co:ad_p2 rdfs:domain co:Add_Datatype .
+
+co:ar_p1 rdfs:domain co:Add_Relevancy .
+
+co:ar_p2 rdfs:domain co:Add_Relevancy .
+
+co:dl_p1 rdfs:domain co:Delete_Label .
+
+co:dl_p2 rdfs:domain co:Delete_Label .
+
+co:dr_p1 rdfs:domain co:Delete_Datatype , co:Delete_Relevancy .
+
+co:dr_p2 rdfs:domain co:Delete_Datatype , co:Delete_Relevancy .
+
+co:consumes rdfs:domain rdfs:Resource .
+
+co:json rdfs:domain co:Complex_Change .
+
+co:agvto_p3 rdfs:domain co:Add_Generic_Value_To_Observation .
+
+co:agvto_p2 rdfs:domain co:Add_Generic_Value_To_Observation .
+
+co:agvto_p1 rdfs:domain co:Add_Generic_Value_To_Observation .
+
+co:dgvfo_p1 rdfs:domain co:Delete_Generic_Value_From_Observation .
+
+co:dgvfo_p2 rdfs:domain co:Delete_Generic_Value_From_Observation .
+
+co:dgvfo_p3 rdfs:domain co:Delete_Generic_Value_From_Observation .
+
+co:ais_p2 rdfs:domain co:Add_inScheme .
+
+co:ais_p1 rdfs:domain co:Add_inScheme .
+
+co:dis_p2 rdfs:domain co:Delete_inScheme .
+
+co:dis_p1 rdfs:domain co:Delete_inScheme .
+
+co:aa_p1 rdfs:domain co:Add_Attribute .
+
+co:aatd_p1 rdfs:domain co:Attach_Attr_To_Dimension .
+
+co:aatd_p2 rdfs:domain co:Attach_Attr_To_Dimension .
+
+co:ac_p1 rdfs:domain co:Add_Codelist .
+
+co:actd_p1 rdfs:domain co:Attach_Codelist_To_Dimension .
+
+co:actd_p2 rdfs:domain co:Attach_Codelist_To_Dimension .
+
+co:adim_p1 rdfs:domain co:Add_Dimension .
+
+co:adtd_p1 rdfs:domain co:Attach_Datatype_To_Dimension .
+
+co:adtd_p2 rdfs:domain co:Attach_Datatype_To_Dimension .
+
+co:adtft_p1 rdfs:domain co:Attach_Dimension_To_FT .
+
+co:adtft_p2 rdfs:domain co:Attach_Dimension_To_FT .
+
+co:advto_p1 rdfs:domain co:Add_Dimension_Value_To_Observation .
+
+co:advto_p2 rdfs:domain co:Add_Dimension_Value_To_Observation .
+
+co:aft_p1 rdfs:domain co:Add_Fact_Table .
+
+co:aga_p1 rdfs:domain co:Add_Generic_Attribute .
+
+co:aga_p2 rdfs:domain co:Add_Generic_Attribute .
+
+co:ah_p1 rdfs:domain co:Add_Hierarchy .
+
+co:ahtd_p1 rdfs:domain co:Attach_Hierarchy_To_Dimension .
+
+co:ahtd_p2 rdfs:domain co:Attach_Hierarchy_To_Dimension .
+
+co:ai_p1 rdfs:domain co:Add_Instance .
+
+co:aitc_p1 rdfs:domain co:Attach_Instance_To_Codelist .
+
+co:aitc_p2 rdfs:domain co:Attach_Instance_To_Codelist .
+
+co:aith_p1 rdfs:domain co:Attach_Instance_To_Hierarchy .
+
+co:aith_p2 rdfs:domain co:Attach_Instance_To_Hierarchy .
+
+co:aitp_p1 rdfs:domain co:Add_Instance_To_Parent , co:Attach_Instance_To_Parent .
+
+co:aitp_p2 rdfs:domain co:Add_Instance_To_Parent , co:Attach_Instance_To_Parent .
+
+co:al_p3 rdfs:domain co:Add_Label .
+
+co:am_p1 rdfs:domain co:Add_Measure .
+
+co:amtft_p1 rdfs:domain co:Attach_Measure_To_FT .
+
+co:amtft_p2 rdfs:domain co:Attach_Measure_To_FT .
+
+co:amvto_p1 rdfs:domain co:Add_Measure_Value_To_Observation .
+
+co:amvto_p2 rdfs:domain co:Add_Measure_Value_To_Observation .
+
+co:ao_p1 rdfs:domain co:Add_Observation .
+
+co:aotft_p1 rdfs:domain co:Attach_Observation_To_FT .
+
+co:aotft_p2 rdfs:domain co:Attach_Observation_To_FT .
+
+co:attm_p1 rdfs:domain co:Attach_Type_To_Measure .
+
+co:attm_p2 rdfs:domain co:Attach_Type_To_Measure .
+
+co:aup_p1_p1 rdfs:domain co:Add_Unknown_Property .
+
+co:aup_p1_p2 rdfs:domain co:Add_Unknown_Property .
+
+co:aup_p1_p3 rdfs:domain co:Add_Unknown_Property .
+
+co:da_p1 rdfs:domain co:Delete_Attribute .
+
+co:dc_p1 rdfs:domain co:Delete_Codelist .
+
+co:dcfd_p1 rdfs:domain co:Detach_Codelist_From_Dimension .
+
+co:ddfd_p1 rdfs:domain co:Detach_Attr_From_Dimension , co:Detach_Datatype_From_Dimension .
+
+co:ddfd_p2 rdfs:domain co:Detach_Attr_From_Dimension , co:Detach_Datatype_From_Dimension .
+
+co:ddfft_p1 rdfs:domain co:Detach_Dimension_From_FT .
+
+co:ddfft_p2 rdfs:domain co:Detach_Dimension_From_FT .
+
+co:ddim_p1 rdfs:domain co:Delete_Dimension .
+
+co:ddvfo_p1 rdfs:domain co:Delete_Dimension_Value_From_Observation .
+
+co:ddvfo_p2 rdfs:domain co:Delete_Dimension_Value_From_Observation .
+
+co:dft_p1 rdfs:domain co:Delete_Fact_Table .
+
+co:dga_p1 rdfs:domain co:Delete_Generic_Attribute .
+
+co:dga_p2 rdfs:domain co:Delete_Generic_Attribute .
+
+co:dh_p1 rdfs:domain co:Delete_Hierarchy .
+
+co:dhfd_p1 rdfs:domain co:Detach_Hierarchy_From_Dimension .
+
+co:dhfd_p2 rdfs:domain co:Detach_Hierarchy_From_Dimension .
+
+co:di_p1 rdfs:domain co:Delete_Instance .
+
+co:difc_p1 rdfs:domain co:Detach_Instance_From_Codelist .
+
+co:difc_p2 rdfs:domain co:Detach_Instance_From_Codelist .
+
+co:difp_p1 rdfs:domain co:Delete_Instance_From_Parent , co:Detach_Instance_From_Parent .
+
+co:difp_p2 rdfs:domain co:Delete_Instance_From_Parent , co:Detach_Instance_From_Parent .
+
+co:dl_p3 rdfs:domain co:Delete_Label .
+
+co:dm_p1 rdfs:domain co:Delete_Measure .
+
+co:dmfft_p1 rdfs:domain co:Detach_Measure_From_FT .
+
+co:dmfft_p2 rdfs:domain co:Detach_Measure_From_FT .
+
+co:dmvfo_p1 rdfs:domain co:Delete_Measure_Value_From_Observation .
+
+co:dmvfo_p2 rdfs:domain co:Delete_Measure_Value_From_Observation .
+
+co:do_p1 rdfs:domain co:Delete_Observation .
+
+co:dofft_p1 rdfs:domain co:Detach_Observation_From_FT .
+
+co:dofft_p2 rdfs:domain co:Detach_Observation_From_FT .
+
+co:dtfm_p1 rdfs:domain co:Detach_Type_From_Measure .
+
+co:dtfm_p2 rdfs:domain co:Detach_Type_From_Measure .
+
+co:dup_p1_p1 rdfs:domain co:Delete_Unknown_Property .
+
+co:dup_p1_p2 rdfs:domain co:Delete_Unknown_Property .
+
+co:dup_p1_p3 rdfs:domain co:Delete_Unknown_Property .
+
+co:aatm_p1 rdfs:domain co:Attach_Attr_To_Measure .
+
+co:aatm_p2 rdfs:domain co:Attach_Attr_To_Measure .
+
+co:dafm_p1 rdfs:domain co:Detach_Attr_From_Measure .
+
+co:dafm_p2 rdfs:domain co:Detach_Attr_From_Measure .
+
+co:difh_p1 rdfs:domain co:Detach_Instance_From_Hierarchy .
+
+co:difh_p2 rdfs:domain co:Detach_Instance_From_Hierarchy .
+
+co:sparql rdfs:range rdfs:Literal .
+
+co:al_p1 rdfs:range rdfs:Resource .
+
+co:al_p2 rdfs:range rdfs:Resource .
+
+co:ad_p1 rdfs:range rdfs:Resource .
+
+co:ad_p2 rdfs:range rdfs:Resource .
+
+co:ar_p1 rdfs:range rdfs:Resource .
+
+co:ar_p2 rdfs:range rdfs:Resource .
+
+co:dl_p1 rdfs:range rdfs:Resource .
+
+co:dl_p2 rdfs:range rdfs:Resource .
+
+co:dr_p1 rdfs:range rdfs:Resource .
+
+co:dr_p2 rdfs:range rdfs:Resource .
+
+co:consumes rdfs:range co:Simple_Change .
+
+co:json rdfs:range rdfs:Literal .
+
+co:agvto_p3 rdfs:range rdfs:Resource .
+
+co:agvto_p2 rdfs:range rdfs:Resource .
+
+co:agvto_p1 rdfs:range rdfs:Resource .
+
+co:dgvfo_p1 rdfs:range rdfs:Resource .
+
+co:dgvfo_p2 rdfs:range rdfs:Resource .
+
+co:dgvfo_p3 rdfs:range rdfs:Resource .
+
+co:ais_p2 rdfs:range rdfs:Resource .
+
+co:ais_p1 rdfs:range rdfs:Resource .
+
+co:dis_p2 rdfs:range rdfs:Resource .
+
+co:dis_p1 rdfs:range rdfs:Resource .
+
+co:aa_p1 rdfs:range rdfs:Resource .
+
+co:aatd_p1 rdfs:range rdfs:Resource .
+
+co:aatd_p2 rdfs:range rdfs:Resource .
+
+co:ac_p1 rdfs:range rdfs:Resource .
+
+co:actd_p1 rdfs:range rdfs:Resource .
+
+co:actd_p2 rdfs:range rdfs:Resource .
+
+co:adim_p1 rdfs:range rdfs:Resource .
+
+co:adtd_p1 rdfs:range rdfs:Resource .
+
+co:adtd_p2 rdfs:range rdfs:Resource .
+
+co:adtft_p1 rdfs:range rdfs:Resource .
+
+co:adtft_p2 rdfs:range rdfs:Resource .
+
+co:advto_p1 rdfs:range rdfs:Resource .
+
+co:advto_p2 rdfs:range rdfs:Resource .
+
+co:aft_p1 rdfs:range rdfs:Resource .
+
+co:aga_p1 rdfs:range rdfs:Resource .
+
+co:aga_p2 rdfs:range rdfs:Resource .
+
+co:ah_p1 rdfs:range rdfs:Resource .
+
+co:ahtd_p1 rdfs:range rdfs:Resource .
+
+co:ahtd_p2 rdfs:range rdfs:Resource .
+
+co:ai_p1 rdfs:range rdfs:Resource .
+
+co:aitc_p1 rdfs:range rdfs:Resource .
+
+co:aitc_p2 rdfs:range rdfs:Resource .
+
+co:aith_p1 rdfs:range rdfs:Resource .
+
+co:aith_p2 rdfs:range rdfs:Resource .
+
+co:aitp_p1 rdfs:range rdfs:Resource .
+
+co:aitp_p2 rdfs:range rdfs:Resource .
+
+co:al_p3 rdfs:range rdfs:Resource .
+
+co:am_p1 rdfs:range rdfs:Resource .
+
+co:amtft_p1 rdfs:range rdfs:Resource .
+
+co:amtft_p2 rdfs:range rdfs:Resource .
+
+co:amvto_p1 rdfs:range rdfs:Resource .
+
+co:amvto_p2 rdfs:range rdfs:Resource .
+
+co:ao_p1 rdfs:range rdfs:Resource .
+
+co:aotft_p1 rdfs:range rdfs:Resource .
+
+co:aotft_p2 rdfs:range rdfs:Resource .
+
+co:attm_p1 rdfs:range rdfs:Resource .
+
+co:attm_p2 rdfs:range rdfs:Resource .
+
+co:aup_p1_p1 rdfs:range rdfs:Resource .
+
+co:aup_p1_p2 rdfs:range rdfs:Resource .
+
+co:aup_p1_p3 rdfs:range rdfs:Resource .
+
+co:da_p1 rdfs:range rdfs:Resource .
+
+co:dc_p1 rdfs:range rdfs:Resource .
+
+co:dcfd_p1 rdfs:range rdfs:Resource .
+
+co:ddfd_p1 rdfs:range rdfs:Resource .
+
+co:ddfd_p2 rdfs:range rdfs:Resource .
+
+co:ddfft_p1 rdfs:range rdfs:Resource .
+
+co:ddfft_p2 rdfs:range rdfs:Resource .
+
+co:ddim_p1 rdfs:range rdfs:Resource .
+
+co:ddvfo_p1 rdfs:range rdfs:Resource .
+
+co:ddvfo_p2 rdfs:range rdfs:Resource .
+
+co:dft_p1 rdfs:range rdfs:Resource .
+
+co:dga_p1 rdfs:range rdfs:Resource .
+
+co:dga_p2 rdfs:range rdfs:Resource .
+
+co:dh_p1 rdfs:range rdfs:Resource .
+
+co:dhfd_p1 rdfs:range rdfs:Resource .
+
+co:dhfd_p2 rdfs:range rdfs:Resource .
+
+co:di_p1 rdfs:range rdfs:Resource .
+
+co:difc_p1 rdfs:range rdfs:Resource .
+
+co:difc_p2 rdfs:range rdfs:Resource .
+
+co:difp_p1 rdfs:range rdfs:Resource .
+
+co:difp_p2 rdfs:range rdfs:Resource .
+
+co:dl_p3 rdfs:range rdfs:Resource .
+
+co:dm_p1 rdfs:range rdfs:Resource .
+
+co:dmfft_p1 rdfs:range rdfs:Resource .
+
+co:dmfft_p2 rdfs:range rdfs:Resource .
+
+co:dmvfo_p1 rdfs:range rdfs:Resource .
+
+co:dmvfo_p2 rdfs:range rdfs:Resource .
+
+co:do_p1 rdfs:range rdfs:Resource .
+
+co:dofft_p1 rdfs:range rdfs:Resource .
+
+co:dofft_p2 rdfs:range rdfs:Resource .
+
+co:dtfm_p1 rdfs:range rdfs:Resource .
+
+co:dtfm_p2 rdfs:range rdfs:Resource .
+
+co:dup_p1_p1 rdfs:range rdfs:Resource .
+
+co:dup_p1_p2 rdfs:range rdfs:Resource .
+
+co:dup_p1_p3 rdfs:range rdfs:Resource .
+
+co:aatm_p1 rdfs:range rdfs:Resource .
+
+co:aatm_p2 rdfs:range rdfs:Resource .
+
+co:dafm_p1 rdfs:range rdfs:Resource .
+
+co:dafm_p2 rdfs:range rdfs:Resource .
+
+co:difh_p1 rdfs:range rdfs:Resource .
+
+co:difh_p2 rdfs:range rdfs:Resource .
+
+co:Add_Label co:name "ADD_LABEL" .
+
+co:al_p1 co:name "subj_label" .
+
+co:al_p2 co:name "prop_label" .
+
+co:ad_p1 co:name "subject" .
+
+co:ad_p2 co:name "datatype" .
+
+co:ar_p1 co:name "1st_arg" .
+
+co:ar_p2 co:name "2nd_arg" .
+
+co:Delete_Label co:name "DELETE_LABEL" .
+
+co:dl_p1 co:name "subj_label" .
+
+co:dl_p2 co:name "prop_label" .
+
+co:dr_p1 co:name "subject" , "1st_arg" .
+
+co:dr_p2 co:name "2nd_arg" , "datatype" .
+
+co:Add_Generic_Value_To_Observation co:name "ADD_GENERIC_VALUE_TO_OBSERVATION" .
+
+co:agvto_p3 co:name "value" .
+
+co:agvto_p2 co:name "property" .
+
+co:agvto_p1 co:name "observation" .
+
+co:Delete_Generic_Value_From_Observation co:name "DELETE_GENERIC_VALUE_FROM_OBSERVATION" .
+
+co:dgvfo_p1 co:name "observation" .
+
+co:dgvfo_p2 co:name "property" .
+
+co:dgvfo_p3 co:name "value" .
+
+co:Add_inScheme co:name "ADD_INSCHEME" .
+
+co:ais_p2 co:name "scheme" .
+
+co:ais_p1 co:name "subj" .
+
+co:Delete_inScheme co:name "DELETE_INSCHEME" .
+
+co:dis_p2 co:name "scheme" .
+
+co:dis_p1 co:name "subj" .
+
+co:Add_Instance_To_Parent co:name "ADD_INSTANCE_TO_PARENT" .
+
+co:Delete_Instance_From_Parent co:name "DELETE_INSTANCE_FROM_PARENT" .
+
+co:Add_Attribute co:name "ADD_ATTRIBUTE" .
+
+co:Add_Codelist co:name "ADD_CODELIST" .
+
+co:Add_Datatype co:name "ADD_DATATYPE" .
+
+co:Add_Dimension co:name "ADD_DIMENSION" .
+
+co:Add_Dimension_Value_To_Observation co:name "ADD_DIMENSION_VALUE_TO_OBSERVATION" .
+
+co:Add_Fact_Table co:name "ADD_FACT_TABLE" .
+
+co:Add_Generic_Attribute co:name "ADD_GENERIC_ATTRIBUTE" .
+
+co:Add_Hierarchy co:name "ADD_HIERARCHY" .
+
+co:Add_Instance co:name "ADD_INSTANCE" .
+
+co:Add_Measure co:name "ADD_MEASURE" .
+
+co:Add_Measure_Value_To_Observation co:name "ADD_MEASURE_VALUE_TO_OBSERVATION" .
+
+co:Add_Observation co:name "ADD_OBSERVATION" .
+
+co:Add_Relevancy co:name "ADD_RELEVANCY" .
+
+co:Add_Unknown_Property co:name "ADD_UNKNOWN_PROPERTY" .
+
+co:Attach_Attr_To_Dimension co:name "ATTACH_ATTR_TO_DIMENSION" .
+
+co:Attach_Codelist_To_Dimension co:name "ATTACH_CODELIST_TO_DIMENSION" .
+
+co:Attach_Datatype_To_Dimension co:name "ATTACH_DATATYPE_TO_DIMENSION" .
+
+co:Attach_Dimension_To_FT co:name "ATTACH_DIMENSION_TO_FT" .
+
+co:Attach_Hierarchy_To_Dimension co:name "ATTACH_HIERARCHY_TO_DIMENSION" .
+
+co:Attach_Instance_To_Codelist co:name "ATTACH_INSTANCE_TO_CODELIST" .
+
+co:Attach_Instance_To_Hierarchy co:name "ATTACH_INSTANCE_TO_HIERARCHY" .
+
+co:Attach_Instance_To_Parent co:name "ATTACH_INSTANCE_TO_PARENT" .
+
+co:Attach_Measure_To_FT co:name "ATTACH_MEASURE_TO_FT" .
+
+co:Attach_Observation_To_FT co:name "ATTACH_OBSERVATION_TO_FT" .
+
+co:Attach_Type_To_Measure co:name "ATTACH_TYPE_TO_MEASURE" .
+
+co:Delete_Attribute co:name "DELETE_ATTRIBUTE" .
+
+co:Delete_Codelist co:name "DELETE_CODELIST" .
+
+co:Delete_Datatype co:name "DELETE_DATATYPE" .
+
+co:Delete_Dimension co:name "DELETE_DIMENSION" .
+
+co:Delete_Dimension_Value_From_Observation co:name "DELETE_DIMENSION_VALUE_FROM_OBSERVATION" .
+
+co:Delete_Fact_Table co:name "DELETE_FACT_TABLE" .
+
+co:Delete_Generic_Attribute co:name "DELETE_GENERIC_ATTRIBUTE" .
+
+co:Delete_Hierarchy co:name "DELETE_HIERARCHY" .
+
+co:Delete_Instance co:name "DELETE_INSTANCE" .
+
+co:Delete_Measure co:name "DELETE_MEASURE" .
+
+co:Delete_Measure_Value_From_Observation co:name "DELETE_MEASURE_VALUE_FROM_OBSERVATION" .
+
+co:Delete_Observation co:name "DELETE_OBSERVATION" .
+
+co:Delete_Relevancy co:name "DELETE_RELEVANCY" .
+
+co:Delete_Unknown_Property co:name "DELETE_UNKNOWN_PROPERTY" .
+
+co:Detach_Attr_From_Dimension co:name "DETACH_ATTR_FROM_DIMENSION" .
+
+co:Detach_Codelist_From_Dimension co:name "DETACH_CODELIST_FROM_DIMENSION" .
+
+co:Detach_Datatype_From_Dimension co:name "DETACH_DATATYPE_FROM_DIMENSION" .
+
+co:Detach_Dimension_From_FT co:name "DETACH_DIMENSION_FROM_FT" .
+
+co:Detach_Hierarchy_From_Dimension co:name "DETACH_HIERARCHY_FROM_DIMENSION" .
+
+co:Detach_Instance_From_Codelist co:name "DETACH_INSTANCE_FROM_CODELIST" .
+
+co:Detach_Instance_From_Parent co:name "DETACH_INSTANCE_FROM_PARENT" .
+
+co:Detach_Measure_From_FT co:name "DETACH_MEASURE_FROM_FT" .
+
+co:Detach_Observation_From_FT co:name "DETACH_OBSERVATION_FROM_FT" .
+
+co:Detach_Type_From_Measure co:name "DETACH_TYPE_FROM_MEASURE" .
+
+co:aa_p1 co:name "attribute" .
+
+co:aatd_p1 co:name "dimension" .
+
+co:aatd_p2 co:name "attribute" .
+
+co:ac_p1 co:name "codelist" .
+
+co:actd_p1 co:name "dimension" .
+
+co:actd_p2 co:name "codelist" .
+
+co:adim_p1 co:name "dimension" .
+
+co:adtd_p1 co:name "dimension" .
+
+co:adtd_p2 co:name "datatype" .
+
+co:adtft_p1 co:name "dimension" .
+
+co:adtft_p2 co:name "fact_table" .
+
+co:advto_p1 co:name "dimension" .
+
+co:advto_p2 co:name "dimension_val" .
+
+co:aft_p1 co:name "fact_table" .
+
+co:aga_p1 co:name "subj" .
+
+co:aga_p2 co:name "attribute" .
+
+co:ah_p1 co:name "hierarchy" .
+
+co:ahtd_p1 co:name "dimension" .
+
+co:ahtd_p2 co:name "hierarchy" .
+
+co:ai_p1 co:name "instance" .
+
+co:aitc_p1 co:name "codelist" .
+
+co:aitc_p2 co:name "instance" .
+
+co:aith_p1 co:name "hierarchy" .
+
+co:aith_p2 co:name "instance" .
+
+co:aitp_p1 co:name "instance" .
+
+co:aitp_p2 co:name "parent" .
+
+co:al_p3 co:name "obj_label" .
+
+co:am_p1 co:name "measure" .
+
+co:amtft_p1 co:name "measure" .
+
+co:amtft_p2 co:name "fact_table" .
+
+co:amvto_p1 co:name "measure" .
+
+co:amvto_p2 co:name "measure_val" .
+
+co:ao_p1 co:name "observation" .
+
+co:aotft_p1 co:name "observation" .
+
+co:aotft_p2 co:name "fact_table" .
+
+co:attm_p1 co:name "type" .
+
+co:attm_p2 co:name "measure" .
+
+co:aup_p1_p1 co:name "subj_un_prop" .
+
+co:aup_p1_p2 co:name "prop_un_prop" .
+
+co:aup_p1_p3 co:name "obj_un_prop" .
+
+co:da_p1 co:name "attribute" .
+
+co:dc_p1 co:name "codelist" .
+
+co:dcfd_p1 co:name "dimension" .
+
+co:ddfd_p1 co:name "dimension" .
+
+co:ddfd_p2 co:name "attribute" , "datatype" .
+
+co:ddfft_p1 co:name "dimension" .
+
+co:ddfft_p2 co:name "fact_table" .
+
+co:ddim_p1 co:name "dimension" .
+
+co:ddvfo_p1 co:name "dimension" .
+
+co:ddvfo_p2 co:name "dimension_val" .
+
+co:dft_p1 co:name "fact_table" .
+
+co:dga_p1 co:name "subj" .
+
+co:dga_p2 co:name "attribute" .
+
+co:dh_p1 co:name "hierarchy" .
+
+co:dhfd_p1 co:name "dimension" .
+
+co:dhfd_p2 co:name "hierarchy" .
+
+co:di_p1 co:name "instance" .
+
+co:difc_p1 co:name "codelist" , "hierarchy" .
+
+co:difc_p2 co:name "instance" .
+
+co:difp_p1 co:name "instance" .
+
+co:difp_p2 co:name "parent" .
+
+co:dl_p3 co:name "obj_label" .
+
+co:dm_p1 co:name "measure" .
+
+co:dmfft_p1 co:name "measure" .
+
+co:dmfft_p2 co:name "fact_table" .
+
+co:dmvfo_p1 co:name "measure" .
+
+co:dmvfo_p2 co:name "measure_val" .
+
+co:do_p1 co:name "observation" .
+
+co:dofft_p1 co:name "observation" .
+
+co:dofft_p2 co:name "fact_table" .
+
+co:dtfm_p1 co:name "type" .
+
+co:dtfm_p2 co:name "measure" .
+
+co:dup_p1_p1 co:name "subj_un_prop" .
+
+co:dup_p1_p2 co:name "prop_un_prop" .
+
+co:dup_p1_p3 co:name "obj_un_prop" .
+
+co:Attach_Attr_To_Measure co:name "ATTACH_ATTR_TO_MEASURE" .
+
+co:aatm_p1 co:name "measure" .
+
+co:aatm_p2 co:name "attribute" .
+
+co:Detach_Attr_From_Measure co:name "DETACH_ATTR_FROM_MEASURE" .
+
+co:dafm_p1 co:name "measure" .
+
+co:dafm_p2 co:name "attribute" .
+
+co:Detach_Instance_From_Hierarchy co:name "DETACH_INSTANCE_FROM_HIERARCHY" .
+
+co:difh_p1 co:name "hierarchy" .
+
+co:difh_p2 co:name "instance" .
+
+co:Add_Label rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Label rdfs:subClassOf co:Simple_Change .
+
+co:Add_Generic_Value_To_Observation rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Generic_Value_From_Observation rdfs:subClassOf co:Simple_Change .
+
+co:Add_inScheme rdfs:subClassOf co:Simple_Change .
+
+co:Delete_inScheme rdfs:subClassOf co:Simple_Change .
+
+co:Add_Instance_To_Parent rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Instance_From_Parent rdfs:subClassOf co:Simple_Change .
+
+co:Add_Attribute rdfs:subClassOf co:Simple_Change .
+
+co:Add_Codelist rdfs:subClassOf co:Simple_Change .
+
+co:Add_Datatype rdfs:subClassOf co:Simple_Change .
+
+co:Add_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Add_Dimension_Value_To_Observation rdfs:subClassOf co:Simple_Change .
+
+co:Add_Fact_Table rdfs:subClassOf co:Simple_Change .
+
+co:Add_Generic_Attribute rdfs:subClassOf co:Simple_Change .
+
+co:Add_Hierarchy rdfs:subClassOf co:Simple_Change .
+
+co:Add_Instance rdfs:subClassOf co:Simple_Change .
+
+co:Add_Measure rdfs:subClassOf co:Simple_Change .
+
+co:Add_Measure_Value_To_Observation rdfs:subClassOf co:Simple_Change .
+
+co:Add_Observation rdfs:subClassOf co:Simple_Change .
+
+co:Add_Relevancy rdfs:subClassOf co:Simple_Change .
+
+co:Add_Unknown_Property rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Attr_To_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Codelist_To_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Datatype_To_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Dimension_To_FT rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Hierarchy_To_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Instance_To_Codelist rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Instance_To_Hierarchy rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Instance_To_Parent rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Measure_To_FT rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Observation_To_FT rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Type_To_Measure rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Attribute rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Codelist rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Datatype rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Dimension_Value_From_Observation rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Fact_Table rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Generic_Attribute rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Hierarchy rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Instance rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Measure rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Measure_Value_From_Observation rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Observation rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Relevancy rdfs:subClassOf co:Simple_Change .
+
+co:Delete_Unknown_Property rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Attr_From_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Codelist_From_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Datatype_From_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Dimension_From_FT rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Hierarchy_From_Dimension rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Instance_From_Codelist rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Instance_From_Parent rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Measure_From_FT rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Observation_From_FT rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Type_From_Measure rdfs:subClassOf co:Simple_Change .
+
+co:Attach_Attr_To_Measure rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Attr_From_Measure rdfs:subClassOf co:Simple_Change .
+
+co:Detach_Instance_From_Hierarchy rdfs:subClassOf co:Simple_Change .
