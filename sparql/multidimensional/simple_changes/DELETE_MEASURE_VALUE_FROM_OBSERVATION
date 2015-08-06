@@ -2,9 +2,7 @@ INSERT INTO <changesOntology> {
 ?dmvfo a co:Delete_Measure_Value_From_Observation;
     co:delMeasVFromOb_p1 ?o;
 	co:delMeasVFromOb_p2 ?m;
-	co:delMeasVFromOb_p3 ?v;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:delMeasVFromOb_p3 ?v.
 }
 WHERE {
 GRAPH <v1> { 

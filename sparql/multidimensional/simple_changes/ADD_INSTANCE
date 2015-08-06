@@ -1,8 +1,6 @@
 INSERT INTO <changesOntology> {
 ?ai a co:Add_Instance;
-    co:addInst_p1 ?i;
-    co:old_version ?v1;
-    co:new_version ?v2.
+    co:addInst_p1 ?i.
 }
 WHERE {
 GRAPH <v2> { 

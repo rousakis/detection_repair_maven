@@ -10,14 +10,14 @@ GRAPH <v1> {
 ?ratt diachron:predicate rdf:type;
       diachron:object ?b.
 FILTER (?b != owl:Class && ?b != owl:Property && ?b != owl:Resource).
-FILTER (?b != rdf:Class && ?b != rdfs:Property && ?b != rdfs:Resource).
+FILTER (?b != rdfs:Class && ?b != rdf:Property && ?b != rdfs:Resource).
 }
 FILTER NOT EXISTS { GRAPH <v2> {
 ?r diachron:hasRecordAttribute ?ratt.
 ?ratt diachron:predicate rdf:type;
       diachron:object ?b.
 FILTER (?b != owl:Class && ?b != owl:Property && ?b != owl:Resource).
-FILTER (?b != rdf:Class && ?b != rdfs:Property && ?b != rdfs:Resource).
+FILTER (?b != rdfs:Class && ?b != rdf:Property && ?b != rdfs:Resource).
 }
 }
 #

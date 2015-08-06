@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?dafd a co:Detach_Attr_From_Dimension;
     co:detachAttFromDim_p1 ?d;
-	co:detachAttFromDim_p2 ?a;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:detachAttFromDim_p2 ?a.
 }
 WHERE {
 GRAPH <v1> { 

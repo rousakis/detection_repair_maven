@@ -2,9 +2,7 @@ INSERT INTO <changesOntology> {
 ?ddvfo a co:Delete_Dimension_Value_From_Observation;
     co:delDimVFromOb_p1 ?o;
 	co:delDimVFromOb_p2 ?d;
-	co:delDimVFromOb_p3 ?v;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:delDimVFromOb_p3 ?v.
 }
 WHERE {
 GRAPH <v1> { 

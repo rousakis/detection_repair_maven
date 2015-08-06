@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?aitp a co:Attach_Instance_To_Parent;
     co:attInstToPar_p1 ?i;
-	co:attInstToPar_p2 ?p;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:attInstToPar_p2 ?p.
 }
 WHERE {
 GRAPH <v2> { 

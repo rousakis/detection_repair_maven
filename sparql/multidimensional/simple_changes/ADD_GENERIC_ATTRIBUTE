@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?aga a co:Add_Generic_Attribute;
     co:addGenAtt_p1 ?x;
-	co:addGenAtt_p2 ?att;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:addGenAtt_p2 ?att.
 }
 WHERE {
 GRAPH <v2> { 

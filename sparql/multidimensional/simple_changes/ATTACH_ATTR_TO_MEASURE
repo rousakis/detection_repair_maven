@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?aatm a co:Attach_Attr_To_Measure;
     co:attachAttToMeas_p1 ?m;
-	co:attachAttToMeas_p2 ?a;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:attachAttToMeas_p2 ?a.
 }
 WHERE {
 GRAPH <v2> { 

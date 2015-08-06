@@ -1,9 +1,7 @@
 INSERT INTO <changesOntology> {
 ?aitc a co:Attach_Instance_To_Codelist;
     co:attInstToClist_p1 ?c;
-	co:attInstToClist_p2 ?i;
-    co:old_version ?v1;
-    co:new_version ?v2.
+	co:attInstToClist_p2 ?i.
 }
 WHERE {
 GRAPH <v2> { 
