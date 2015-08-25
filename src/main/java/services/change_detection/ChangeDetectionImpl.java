@@ -98,8 +98,8 @@ public class ChangeDetectionImpl {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(inputMessage);
-            if (jsonObject.size() != 4) {
-                String message = "JSON input message should have exactly 4 arguments.";
+            if (jsonObject.size() != 5) {
+                String message = "JSON input message should have exactly 5 arguments.";
                 String json = "{ \"Success\" : false, "
                         + "\"Message\" : \"" + message + "\" }";
                 return Response.status(400).entity(json).build();
@@ -108,6 +108,7 @@ public class ChangeDetectionImpl {
                 String newVersion = (String) jsonObject.get("New_Version");
                 boolean ingest = (Boolean) jsonObject.get("Ingest");
                 JSONArray ccs = (JSONArray) jsonObject.get("Complex_Changes");
+                String associations = (String) jsonObject.get("Associations");
                 if (oldVersion == null || newVersion == null || ccs == null) {
                     throw new ParseException(-1);
                 }
@@ -131,7 +132,7 @@ public class ChangeDetectionImpl {
                     ChangesManager cManager = new ChangesManager(properties, datasetUri, oldVersion, newVersion, false);
                     String changesOntology = cManager.getChangesOntology();
                     cManager.terminate();
-                    detector = new ChangesDetector(properties, changesOntology, changesOntologySchema);
+                    detector = new ChangesDetector(properties, changesOntology, changesOntologySchema, associations);
                 } catch (Exception ex) {
                     String json = "{ \"Success\" : false, "
                             + "\"Message\" : \"Exception Occured: " + ex.getMessage() + " \" }";

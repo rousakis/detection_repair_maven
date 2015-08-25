@@ -26,7 +26,9 @@ public class TestChangeDetection {
         String input = "{ \"Old_Version\" : \"" + v1 + "\", "
                 + "\"New_Version\" : \"" + v2 + "\", "
                 + "\"Ingest\" : " + ingest + ", "
-                + "\"Complex_Changes\" : [ ] }";
+                + "\"Complex_Changes\" : [ ], "
+                + "\"Associations\" : null"
+                + "}";
         ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input);
         System.out.println(response.getEntity(String.class));
         System.out.println(response.getStatus());

@@ -17,14 +17,12 @@ public class TestQuery {
 
     public static void main(String[] args) {
         Client c = Client.create();
-        String ip = "139.91.183.48";
-        ip = "localhost";
+        String ip = "139.91.183.48:8181";
+        ip = "139.91.183.65:8080";
         System.out.println("Testing Query Service...");
         String query = "select ?sc ?param_name ?param_value ?v1 ?v2 where { "
                 + "?sc a co:Add_Label; "
-                + "?param ?param_value; "
-                + "co:old_version ?v1; "
-                + "co:new_version ?v2. "
+                + "?param ?param_value. "
                 + "?param co:name ?param_name."
                 + "} limit 100";
         String format = "json";
@@ -40,7 +38,7 @@ public class TestQuery {
                 + "\"Query\" : \"" + query + "\", "
                 + "\"Format\" : \"" + format + "\""
                 + " }";
-        String url = "http://" + ip + ":8181/ForthMaven-1.0/diachron/change_detection/query";
+        String url = "http://" + ip + "/ForthMaven-1.0/diachron/change_detection/query";
         WebResource r = c.resource(url);
         ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input);
 

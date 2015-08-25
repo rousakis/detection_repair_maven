@@ -26,7 +26,7 @@ import org.json.simple.parser.ParseException;
 @Path("repair")
 public class RepairImpl {
 
-    private static String propFile = "/config/config.properties";
+    private static String propFile = "C:/config.properties";
 
     /**
      * Creates a new instance of RepairImpl
