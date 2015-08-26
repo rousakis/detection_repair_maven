@@ -292,10 +292,6 @@ co:json rdfs:domain co:Complex_Change .
 
 co:metadata rdfs:domain co:Change .
 
-co:adef_p2 rdfs:domain co:Add_Definition .
-
-co:ddef_p2 rdfs:domain co:Delete_Definition .
-
 <http://www.diachron-fp7.eu/changes/Mark_as_Obsolete/p2> rdfs:domain co:Mark_as_Obsolete .
 
 <http://www.diachron-fp7.eu/changes/Delete_Definition/p1> rdfs:domain co:Delete_Definition .
@@ -563,10 +559,6 @@ co:Delete_Synonym co:name "Delete Synonym" .
 co:ap_p1 co:name "property" .
 
 co:dp_p1 co:name "property" .
-
-co:adef_p2 co:name "definition" .
-
-co:ddef_p2 co:name "definition" .
 
 <http://www.diachron-fp7.eu/changes/Mark_as_Obsolete/p2> co:name "reason" .
 
