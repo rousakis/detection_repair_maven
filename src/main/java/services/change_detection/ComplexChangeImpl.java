@@ -8,9 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
-import javax.servlet.ServletContext;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,7 +16,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.diachron.detection.complex_change.CCDefinitionError.CODE;
@@ -26,6 +23,7 @@ import org.diachron.detection.complex_change.CCManager;
 import org.diachron.detection.repositories.JDBCVirtuosoRep;
 import org.diachron.detection.utils.JSONMessagesParser;
 import org.diachron.detection.utils.MCDUtils;
+import utils.PropertiesManager;
 import utils.Utils;
 
 /**
@@ -36,7 +34,7 @@ import utils.Utils;
 @Path("complex_change")
 public class ComplexChangeImpl {
 
-    private static String propFile = "C:/config.properties";
+    PropertiesManager propertiesManager = PropertiesManager.getPropertiesManager();
 
     /**
      * Creates a new instance of ComplexChangeImpl
@@ -93,26 +91,15 @@ public class ComplexChangeImpl {
         boolean result = false;
         String message = null;
         int code = 0;
-        Properties prop = new Properties();
-        try {
-            prop.load(new FileInputStream(propFile));
-//            prop.load(context.getResourceAsStream("/WEB-INF/config.properties"));
-        } catch (IOException ex) {
-            message = ex.getMessage();
-            result = false;
-            code = 400;
-            String json = "{ \"Message\" : " + message + ", \"Result\" : " + result + " }";
-            return Response.status(code).entity(json).build();
-        }
         JDBCVirtuosoRep jdbcRep;
         try {
-            jdbcRep = new JDBCVirtuosoRep(prop);
+            jdbcRep = new JDBCVirtuosoRep(propertiesManager.getProperties());
         } catch (ClassNotFoundException | SQLException | IOException ex) {
             result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
         }
-        String datasetUri = prop.getProperty("Dataset_URI");
+        String datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
         String ontologySchema = Utils.getDatasetSchema(datasetUri);
         String query = "select ?json from <" + ontologySchema + "> where { ?s co:name \"" + name + "\"; co:json ?json. }";
         ResultSet res = jdbcRep.executeSparqlQuery(query, false);
@@ -160,21 +147,12 @@ public class ComplexChangeImpl {
     @Path("{com_change}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCCJSON(@PathParam("com_change") String name) {
-        Properties properties = new Properties();
         String message = null;
         int code;
         boolean result = false;
+        String datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
         try {
-            properties.load(new FileInputStream(propFile));
-//            properties.load(context.getResourceAsStream("/WEB-INF/config.properties"));
-        } catch (IOException ex) {
-            result = false;
-            String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
-            return Response.status(400).entity(json).build();
-        }
-        String datasetUri = properties.getProperty("Dataset_Uri");
-        try {
-            MCDUtils utils = new MCDUtils(properties, datasetUri, null);
+            MCDUtils utils = new MCDUtils(propertiesManager.getProperties(), datasetUri, false);
             result = utils.deleteCC(name);
             message = null;
             if (result) {
@@ -315,20 +293,11 @@ public class ComplexChangeImpl {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response defineCCJSON(String inputMessage) {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(propFile));
-//            properties.load(context.getResourceAsStream("/WEB-INF/config.properties"));
-        } catch (IOException ex) {
-            boolean result = false;
-            String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
-            return Response.status(400).entity(json).build();
-        }
-        String datasetUri = properties.getProperty("Dataset_URI");
+        String datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
         String changesOntologySchema = Utils.getDatasetSchema(datasetUri);
         CCManager ccDef = null;
         try {
-            ccDef = JSONMessagesParser.createCCDefinition(properties, inputMessage, changesOntologySchema);
+            ccDef = JSONMessagesParser.createCCDefinition(propertiesManager.getProperties(), inputMessage, changesOntologySchema);
         } catch (Exception ex) {
             boolean result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";

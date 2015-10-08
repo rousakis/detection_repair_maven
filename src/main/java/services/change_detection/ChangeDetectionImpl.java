@@ -36,6 +36,7 @@ import org.diachron.detection.repositories.SesameVirtRep;
 import org.diachron.detection.utils.ChangesDetector;
 import org.diachron.detection.utils.ChangesManager;
 import org.diachron.detection.utils.SCDUtils;
+import utils.PropertiesManager;
 import utils.Utils;
 
 /**
@@ -46,7 +47,7 @@ import utils.Utils;
 @Path("change_detection")
 public class ChangeDetectionImpl {
 
-    private static String propFile = "C:/config.properties";
+    PropertiesManager propertiesManager = PropertiesManager.getPropertiesManager();
 
     public ChangeDetectionImpl() {
     }
@@ -64,6 +65,7 @@ public class ChangeDetectionImpl {
      * "New_Version" : "v2", <br>
      * "Ingest" : true, <br>
      * "Complex_Changes" : ["Label_Obsolete", ...] <br>
+     * "Associations" : "assoc" <br>
      * } <br>
      * where
      * <ul>
@@ -74,14 +76,20 @@ public class ChangeDetectionImpl {
      * <li>Complex_Changes - The set of complex change types which will be
      * considered. If the set is empty, then all the defined complex changes in
      * the ontology of changes will be considered.
+     * <li>Associations - The named graph URI which contains the associations
+     * among URIs between the old and new version. We say that a URI is
+     * associated with another one when they refer on the same object across
+     * versions thus, it would be more intuitively correct to report such
+     * changes in a different way. If null is given, then no associations are
+     * considered.
      * </ul>
      * @return A Response instance which has a JSON-encoded entity content
      * depending on the input parameter of the method. We discriminate the
      * following cases: <br>
      * <ul>
      * <li> Error code: <b>400</b> and entity content: { "Success" : false,
-     * "Message" : "JSON input message should have exactly 4 arguments." } if
-     * the input parameter has more than four JSON parameters.
+     * "Message" : "JSON input message should have exactly 5 arguments." } if
+     * the input parameter has not five JSON parameters.
      * <li> Error code: <b>200</b> and entity content: { "Success" : true,
      * "Message" : "Change detection among versions Old_Version, New_Version was
      * executed." } if the input parameter has the correct form.
@@ -113,26 +121,14 @@ public class ChangeDetectionImpl {
                     throw new ParseException(-1);
                 }
                 ///
-                Properties properties = new Properties();
-                try {
-                    properties.load(new FileInputStream(propFile));
-//                    properties.load(context.getResourceAsStream(propFile));
-                } catch (IOException ex) {
-                    String message = ex.getMessage();
-                    boolean result = false;
-                    int code = 400;
-                    String json = "{ \"Message\" : " + message + ", \"Result\" : " + result + " }";
-                    return Response.status(code).entity(json).build();
-                }
-                ///
-                String datasetUri = properties.getProperty("Dataset_URI");
-                String changesOntologySchema = Utils.getDatasetSchema(datasetUri);
+                String datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
+                String changesOntologySchema = propertiesManager.getPropertyValue("Changes_Ontology_Schema");
                 ChangesDetector detector = null;
                 try {
-                    ChangesManager cManager = new ChangesManager(properties, datasetUri, oldVersion, newVersion, false);
+                    ChangesManager cManager = new ChangesManager(propertiesManager.getProperties(), datasetUri, oldVersion, newVersion, false);
                     String changesOntology = cManager.getChangesOntology();
                     cManager.terminate();
-                    detector = new ChangesDetector(properties, changesOntology, changesOntologySchema, associations);
+                    detector = new ChangesDetector(propertiesManager.getProperties(), changesOntology, changesOntologySchema, associations);
                 } catch (Exception ex) {
                     String json = "{ \"Success\" : false, "
                             + "\"Message\" : \"Exception Occured: " + ex.getMessage() + " \" }";
@@ -192,13 +188,12 @@ public class ChangeDetectionImpl {
         Properties prop = new Properties();
         OutputStream output = null;
         try {
-            prop.load(new FileInputStream(propFile));
-//            prop.load(context.getResourceAsStream(propFile));
-            String ip = prop.getProperty("Repository_IP");
-            String username = prop.getProperty("Repository_Username");
-            String password = prop.getProperty("Repository_Password");
-            String changesOntol = prop.getProperty("Changes_Ontology");
-            int port = Integer.parseInt(prop.getProperty("Repository_Port"));
+//            prop.load(this.getClass().getResourceAsStream(propFile));
+            String ip = propertiesManager.getPropertyValue("Repository_IP");
+            String username = propertiesManager.getPropertyValue("Repository_Username");
+            String password = propertiesManager.getPropertyValue("Repository_Password");
+            String changesOntol = propertiesManager.getPropertyValue("Changes_Ontology");
+            int port = Integer.parseInt(propertiesManager.getPropertyValue("Repository_Port"));
             SesameVirtRep sesame = new SesameVirtRep(ip, port, username, password);
             query = query.replace(" where ", " from <" + changesOntol + "> ");
             TupleQuery tupleQuery = sesame.getCon().prepareTupleQuery(QueryLanguage.SPARQL, query);
@@ -235,8 +230,6 @@ public class ChangeDetectionImpl {
             }
             tupleQuery.evaluate(writer);
         } catch (MalformedQueryException | QueryEvaluationException | TupleQueryResultHandlerException | RepositoryException ex) {
-            return Response.status(400).entity(ex.getMessage()).build();
-        } catch (IOException ex) {
             return Response.status(400).entity(ex.getMessage()).build();
         }
         return Response.status(200).entity(output.toString()).build();
@@ -300,17 +293,17 @@ public class ChangeDetectionImpl {
                     throw new ParseException(-1);
                 }
                 ///
-                Properties prop = new Properties();
-                prop.load(new FileInputStream(propFile));
-                String ip = prop.getProperty("Repository_IP");
-                String username = prop.getProperty("Repository_Username");
-                String password = prop.getProperty("Repository_Password");
-                String changesOntol = prop.getProperty("Changes_Ontology");
-                int port = Integer.parseInt(prop.getProperty("Repository_Port"));
+//                prop.load(this.getClass().getResourceAsStream(propFile));
+                String ip = propertiesManager.getPropertyValue("Repository_IP");
+                String username = propertiesManager.getPropertyValue("Repository_Username");
+                String password = propertiesManager.getPropertyValue("Repository_Password");
+                String changesOntol = propertiesManager.getPropertyValue("Changes_Ontology");
+                int port = Integer.parseInt(propertiesManager.getPropertyValue("Repository_Port"));
                 SesameVirtRep sesame = new SesameVirtRep(ip, port, username, password);
                 query = query.replace(" where ", " from <" + changesOntol + "> ");
                 TupleQuery tupleQuery = sesame.getCon().prepareTupleQuery(QueryLanguage.SPARQL, query);
                 output = new OutputStream() {
+
                     private StringBuilder string = new StringBuilder();
 
                     @Override
@@ -344,8 +337,6 @@ public class ChangeDetectionImpl {
                 tupleQuery.evaluate(writer);
             }
         } catch (MalformedQueryException | QueryEvaluationException | TupleQueryResultHandlerException | RepositoryException ex) {
-            return Response.status(400).entity(ex.getMessage()).build();
-        } catch (IOException ex) {
             return Response.status(400).entity(ex.getMessage()).build();
         } catch (ParseException ex) {
             String message = "JSON input message could not be parsed.";
