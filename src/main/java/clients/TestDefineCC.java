@@ -8,6 +8,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import javax.ws.rs.core.MediaType;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -19,10 +20,11 @@ public class TestDefineCC {
         Client c = Client.create();
         System.out.println("Testing Define CC Service...");
         String ip = "139.91.183.48";
-        ip = "localhost";
+//        ip = "localhost";
         String url = "http://" + ip + ":8181/ForthMaven-1.0/diachron/complex_change";
         WebResource r = c.resource(url);
-        String input = "{ "
+
+        String ccDef = "{ "
                 + "\"Complex_Change\" : \"Mark_as_Obsolete_v2\", "
                 + "\"Priority\" : 1.0, "
                 + "\"Complex_Change_Parameters\": ["
@@ -50,7 +52,11 @@ public class TestDefineCC {
                 + " ]"
                 + "}";
 
-        ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input);
+        JSONObject input = new JSONObject();
+        input.put("Dataset_URI", "http://www.ebi.ac.uk/efo/");
+        input.put("CC_Definition", ccDef);
+
+        ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input.toJSONString());
         System.out.println(response.getEntity(String.class));
         System.out.println(response.getStatus());
         System.out.println("-----\n");

@@ -4,18 +4,16 @@
  */
 package services.change_detection;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.diachron.detection.complex_change.CCDefinitionError.CODE;
@@ -23,6 +21,8 @@ import org.diachron.detection.complex_change.CCManager;
 import org.diachron.detection.repositories.JDBCVirtuosoRep;
 import org.diachron.detection.utils.JSONMessagesParser;
 import org.diachron.detection.utils.MCDUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import utils.PropertiesManager;
 import utils.Utils;
 
@@ -47,10 +47,12 @@ public class ComplexChangeImpl {
      * definition of a complex changes. Such information can be the name of the
      * complex change, the simple changes which compose it, its parameters along
      * with their corresponding filters etc.<br>
-     * <b>URL:</b> /diachron/complex_change/{com_change}
+     * <b>URL:</b> /diachron/complex_change?name={name}&dataset_uri={uri}
      *
-     * @param <b>com_change</b> Path parameter which refers on the complex
-     * change name.
+     * @param <b>name</b> Query parameter which refers on the complex change
+     * name.
+     * @param <b>dataset_uri</b> Query parameter which refers on the dataset in
+     * which the complex change will be searched.
      * @return A Response instance which has a JSON-encoded entity content. We
      * discriminate the following cases: <br>
      * <ul>
@@ -86,8 +88,8 @@ public class ComplexChangeImpl {
      * </ul>
      */
     @GET
-    @Path("{com_change}")
-    public Response getCCJSON(@PathParam("com_change") String name) {
+    public Response getCCJSON(@QueryParam("name") String name,
+            @QueryParam("dataset_uri") String datasetUri) {
         boolean result = false;
         String message = null;
         int code = 0;
@@ -99,7 +101,9 @@ public class ComplexChangeImpl {
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
         }
-        String datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
+        if (datasetUri == null) {
+            datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
+        }
         String ontologySchema = Utils.getDatasetSchema(datasetUri);
         String query = "select ?json from <" + ontologySchema + "> where { ?s co:name \"" + name + "\"; co:json ?json. }";
         ResultSet res = jdbcRep.executeSparqlQuery(query, false);
@@ -128,10 +132,12 @@ public class ComplexChangeImpl {
      * parameter from the ontology of changes. In fact, it deletes all the
      * correlated triples with the corresponding complex change. This means that
      * any detected changes of this complex type will be deleted as well. <br>
-     * <b>URL:</b> /diachron/complex_change/{com_change}
+     * <b>URL:</b> /diachron/complex_change?name={name}&dataset_uri={uri}
      *
-     * @param <b>com_change</b> Path parameter which refers on the complex
-     * change name.
+     * @param <b>name</b> Query parameter which refers on the complex change
+     * name.
+     * @param <b>dataset_uri</b> Query parameter which refers on the dataset in
+     * which the complex change will be deleted.
      * @return A Response instance which has a JSON-encoded entity content. We
      * discriminate the following cases: <br>
      * <ul>
@@ -144,13 +150,15 @@ public class ComplexChangeImpl {
      * </ul>
      */
     @DELETE
-    @Path("{com_change}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteCCJSON(@PathParam("com_change") String name) {
+    public Response deleteCCJSON(@QueryParam("name") String name,
+            @QueryParam("dataset_uri") String datasetUri) {
         String message = null;
         int code;
         boolean result = false;
-        String datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
+        if (datasetUri == null) {
+            datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
+        }
         try {
             MCDUtils utils = new MCDUtils(propertiesManager.getProperties(), datasetUri, false);
             result = utils.deleteCC(name);
@@ -170,42 +178,6 @@ public class ComplexChangeImpl {
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
         }
-
-//        String tmpUri = datasetUri;
-//        if (datasetUri.endsWith("/")) {
-//            tmpUri = datasetUri.substring(0, datasetUri.length() - 1);
-//        }
-//        String changesOntologySchema = tmpUri + "/changes/schema";
-//        CCManager manager = null;
-//        try {
-//            manager = new CCManager(properties, changesOntologySchema);
-//        } catch (Exception ex) {
-//            result = false;
-//            String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
-//            return Response.status(400).entity(json).build();
-//        }
-//        List<String> ontologies = Utils.getChangesOntologies(datasetUri, manager.getJdbcRep());
-//        if (ontologies.isEmpty()) {
-//            result = manager.deleteComplexChange(changesOntologySchema, name);
-//        } else {
-//            for (String ontology : ontologies) {
-//                boolean tmp = manager.deleteComplexChange(ontology, name);
-//                if (tmp) {
-//                    result = tmp;
-//                }
-//            }
-//        }
-//        message = null;
-//        if (result) {
-//            code = 200;
-//            message = "Complex Change was successfully deleted from the ontology of changes.";
-//        } else {
-//            code = 204;
-//            message = "Complex Change was not found in the ontology of changes.";
-//        }
-//        String json = "{ \"Message\" : \"" + message + "\", \"Result\" : " + result + " }";
-//        manager.terminate();
-//        return Response.status(code).entity(json).build();
     }
 
     /**
@@ -216,6 +188,8 @@ public class ComplexChangeImpl {
      * @param <b>inputMessage</b> : A JSON-encoded string which represents the
      * definition of a complex change and has the following form: <br>
      * { <br>
+     * "Dataset_Uri" : "http://dataset", <br>
+     * "CC_Definition", { <br>
      * "Complex_Change": "Mark_as_Obsolete_v2", <br>
      * "Priority": 1, <br>
      * "Complex_Change_Parameters": [ <br>
@@ -241,7 +215,15 @@ public class ComplexChangeImpl {
      * } <br>
      * ] <br>
      * } <br>
+     * } <br>
+     *
      * where
+     * <ul>
+     * <li> Dataset_Uri - The URI of the dataset in which the new complex change
+     * will be defined. If this parameter is missing from the JSON input
+     * message, then the URI will be taken from the properties file.
+     * <li> CC_Definition - The JSON definition of the Complex change. It
+     * consists of the following fields:
      * <ul>
      * <li> Complex_Change: the name of the complex change.
      * <li> Priority: its priority which can be any double number.
@@ -268,7 +250,7 @@ public class ComplexChangeImpl {
      * change parameter, c) a simple change parameter. The presence of the
      * triple is denoted by a flag which takes one of the values; EXISTS_IN_V2,
      * EXISTS_IN_V1, NOT_EXISTS_IN_V2, NOT_EXISTS_IN_V1
-     * </ul>
+     * </ul></ul>
      * @return A Response instance which has a JSON-encoded entity content
      * depending on the input parameter of the method. We discriminate the
      * following cases: <br>
@@ -293,11 +275,17 @@ public class ComplexChangeImpl {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response defineCCJSON(String inputMessage) {
-        String datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
-        String changesOntologySchema = Utils.getDatasetSchema(datasetUri);
-        CCManager ccDef = null;
+        JSONParser jsonParser = new JSONParser();
+        CCManager ccDef;
         try {
-            ccDef = JSONMessagesParser.createCCDefinition(propertiesManager.getProperties(), inputMessage, changesOntologySchema);
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(inputMessage);
+            String datasetUri = (String) jsonObject.get("Dataset_URI");
+            if (datasetUri == null) {
+                datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
+            }
+            String changesOntologySchema = Utils.getDatasetSchema(datasetUri);
+            String ccJson = (String) jsonObject.get("CC_Definition");
+            ccDef = JSONMessagesParser.createCCDefinition(propertiesManager.getProperties(), ccJson, changesOntologySchema);
         } catch (Exception ex) {
             boolean result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";

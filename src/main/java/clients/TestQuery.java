@@ -18,7 +18,7 @@ public class TestQuery {
     public static void main(String[] args) {
         Client c = Client.create();
         String ip = "139.91.183.48:8181";
-        ip = "139.91.183.65:8080";
+//        ip = "139.91.183.65:8080";
         System.out.println("Testing Query Service...");
         String query = "select ?sc ?param_name ?param_value ?v1 ?v2 where { "
                 + "?sc a co:Add_Label; "

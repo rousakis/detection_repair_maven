@@ -4,11 +4,8 @@
  */
 package services.change_detection;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Properties;
-import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -35,7 +32,6 @@ import org.openrdf.repository.RepositoryException;
 import org.diachron.detection.repositories.SesameVirtRep;
 import org.diachron.detection.utils.ChangesDetector;
 import org.diachron.detection.utils.ChangesManager;
-import org.diachron.detection.utils.SCDUtils;
 import utils.PropertiesManager;
 import utils.Utils;
 
@@ -61,6 +57,7 @@ public class ChangeDetectionImpl {
      * @param <b>inputMessage</b> : A JSON-encoded string which has the
      * following form: <br>
      * { <br>
+     * "Dataset_Uri" : "http://dataset", <br>
      * "Old_Version" : "v1", <br>
      * "New_Version" : "v2", <br>
      * "Ingest" : true, <br>
@@ -69,6 +66,9 @@ public class ChangeDetectionImpl {
      * } <br>
      * where
      * <ul>
+     * <li>Dataset_Uri - The URI of the dataset whose versions will be compared.
+     * If this parameter is missing from the JSON input message, then the URI
+     * will be taken from the properties file. <br>
      * <li>Old_Version - The old version URI of a DIACHRON entity.<br>
      * <li>New_Version - The old version URI of a DIACHRON entity.<br>
      * <li>Ingest - A flag which denotes whether the service is called due to a
@@ -106,12 +106,16 @@ public class ChangeDetectionImpl {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(inputMessage);
-            if (jsonObject.size() != 5) {
-                String message = "JSON input message should have exactly 5 arguments.";
+            if (jsonObject.size() != 5 && jsonObject.size() != 6) {
+                String message = "JSON input message should have 5 or 6 arguments.";
                 String json = "{ \"Success\" : false, "
                         + "\"Message\" : \"" + message + "\" }";
                 return Response.status(400).entity(json).build();
             } else {
+                String datasetUri = (String) jsonObject.get("Dataset_URI");
+                if (datasetUri == null) {
+                    datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
+                }
                 String oldVersion = (String) jsonObject.get("Old_Version");
                 String newVersion = (String) jsonObject.get("New_Version");
                 boolean ingest = (Boolean) jsonObject.get("Ingest");
@@ -120,9 +124,7 @@ public class ChangeDetectionImpl {
                 if (oldVersion == null || newVersion == null || ccs == null) {
                     throw new ParseException(-1);
                 }
-                ///
-                String datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
-                String changesOntologySchema = propertiesManager.getPropertyValue("Changes_Ontology_Schema");
+                String changesOntologySchema = Utils.getDatasetSchema(datasetUri);
                 ChangesDetector detector = null;
                 try {
                     ChangesManager cManager = new ChangesManager(propertiesManager.getProperties(), datasetUri, oldVersion, newVersion, false);
@@ -135,6 +137,7 @@ public class ChangeDetectionImpl {
                     return Response.status(400).entity(json).build();
                 }
                 if (ingest) {
+                    detector.detectAssociations(oldVersion, newVersion);
                     detector.detectSimpleChanges(oldVersion, newVersion, null);
                 }
                 String[] cChanges = {};
@@ -185,10 +188,8 @@ public class ChangeDetectionImpl {
     @Produces(MediaType.APPLICATION_JSON)
     public Response queryChangesOntologyGet(@QueryParam("query") String query,
             @QueryParam("format") String format) {
-        Properties prop = new Properties();
         OutputStream output = null;
         try {
-//            prop.load(this.getClass().getResourceAsStream(propFile));
             String ip = propertiesManager.getPropertyValue("Repository_IP");
             String username = propertiesManager.getPropertyValue("Repository_Username");
             String password = propertiesManager.getPropertyValue("Repository_Password");
@@ -198,7 +199,6 @@ public class ChangeDetectionImpl {
             query = query.replace(" where ", " from <" + changesOntol + "> ");
             TupleQuery tupleQuery = sesame.getCon().prepareTupleQuery(QueryLanguage.SPARQL, query);
             output = new OutputStream() {
-
                 private StringBuilder string = new StringBuilder();
 
                 @Override
@@ -292,8 +292,6 @@ public class ChangeDetectionImpl {
                 if (format == null || query == null) {
                     throw new ParseException(-1);
                 }
-                ///
-//                prop.load(this.getClass().getResourceAsStream(propFile));
                 String ip = propertiesManager.getPropertyValue("Repository_IP");
                 String username = propertiesManager.getPropertyValue("Repository_Username");
                 String password = propertiesManager.getPropertyValue("Repository_Password");
