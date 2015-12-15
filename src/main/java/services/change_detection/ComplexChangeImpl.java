@@ -183,6 +183,7 @@ public class ComplexChangeImpl {
                 return Response.status(400).entity(json).build();
             }
             ////
+            utils.getJDBCRepository().executeUpdateQuery("checkpoint", false);
             return Response.status(code).entity(json).build();
         } catch (Exception ex) {
             result = false;
