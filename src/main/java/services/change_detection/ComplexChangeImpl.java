@@ -7,6 +7,8 @@ package services.change_detection;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
@@ -23,6 +25,7 @@ import org.diachron.detection.utils.JSONMessagesParser;
 import org.diachron.detection.utils.MCDUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.openrdf.repository.RepositoryException;
 import utils.PropertiesManager;
 import utils.Utils;
 
@@ -172,6 +175,15 @@ public class ComplexChangeImpl {
             }
             String json = "{ \"Message\" : \"" + message + "\", \"Result\" : " + result + " }";
             utils.terminate();
+            /////
+            Exception ex = updateChangesOntologies(datasetUri, name);
+            if (ex != null) {
+                result = false;
+                json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
+                return Response.status(400).entity(json).build();
+            }
+            ////
+            utils.getJDBCRepository().executeUpdateQuery("checkpoint", false);
             return Response.status(code).entity(json).build();
         } catch (Exception ex) {
             result = false;
@@ -277,15 +289,18 @@ public class ComplexChangeImpl {
     public Response defineCCJSON(String inputMessage) {
         JSONParser jsonParser = new JSONParser();
         CCManager ccDef;
+        String datasetUri;
+        String ccName;
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(inputMessage);
-            String datasetUri = (String) jsonObject.get("Dataset_URI");
+            datasetUri = (String) jsonObject.get("Dataset_URI");
             if (datasetUri == null) {
                 datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
             }
             String changesOntologySchema = Utils.getDatasetSchema(datasetUri);
-            String ccJson = (String) jsonObject.get("CC_Definition");
-            ccDef = JSONMessagesParser.createCCDefinition(propertiesManager.getProperties(), ccJson, changesOntologySchema);
+            JSONObject ccJson = (JSONObject) jsonParser.parse((String) jsonObject.get("CC_Definition"));
+            ccName = (String) ccJson.get("Complex_Change");
+            ccDef = JSONMessagesParser.createCCDefinition(propertiesManager.getProperties(), ccJson.toJSONString(), changesOntologySchema);
         } catch (Exception ex) {
             boolean result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
@@ -313,9 +328,30 @@ public class ComplexChangeImpl {
                 message = ccDef.getCcDefError().getDescription();
                 result = false;
             }
-            String json = "{ \"Message\" : \"" + message + "\", \"Success\" : " + result + " }";
             ccDef.terminate();
+            ////
+            Exception ex = updateChangesOntologies(datasetUri, ccName);
+            if (ex != null) {
+                result = false;
+                String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
+                return Response.status(400).entity(json).build();
+            }
+            ccDef.getJdbcRep().executeUpdateQuery("checkpoint", false);
+            ////
+            String json = "{ \"Message\" : \"" + message + "\", \"Success\" : " + result + " }";
             return Response.status(code).entity(json).build();
         }
+    }
+
+    private Exception updateChangesOntologies(String datasetUri, String ccName) {
+        boolean result;
+        try {
+            MCDUtils mcd = new MCDUtils(propertiesManager.getProperties(), datasetUri, true);
+            mcd.deleteCCWithLessPriority(ccName);
+            mcd.detectDatasets(true);
+        } catch (Exception ex) {
+            return ex;
+        }
+        return null;
     }
 }
