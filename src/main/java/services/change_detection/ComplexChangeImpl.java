@@ -328,6 +328,7 @@ public class ComplexChangeImpl {
                 message = ccDef.getCcDefError().getDescription();
                 result = false;
             }
+            ccDef.getJdbcRep().executeUpdateQuery("checkpoint", false);
             ccDef.terminate();
             ////
             Exception ex = updateChangesOntologies(datasetUri, ccName);
@@ -336,7 +337,6 @@ public class ComplexChangeImpl {
                 String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
                 return Response.status(400).entity(json).build();
             }
-            ccDef.getJdbcRep().executeUpdateQuery("checkpoint", false);
             ////
             String json = "{ \"Message\" : \"" + message + "\", \"Success\" : " + result + " }";
             return Response.status(code).entity(json).build();
@@ -349,9 +349,11 @@ public class ComplexChangeImpl {
             MCDUtils mcd = new MCDUtils(propertiesManager.getProperties(), datasetUri, true);
             mcd.deleteCCWithLessPriority(ccName);
             mcd.detectDatasets(true);
+            mcd.terminate();
         } catch (Exception ex) {
             return ex;
         }
+
         return null;
     }
 }
