@@ -176,7 +176,6 @@ public class ComplexChangeImpl {
                 message = "Complex Change was not found in the ontology of changes.";
             }
             String json = "{ \"Message\" : \"" + message + "\", \"Result\" : " + result + " }";
-            utils.terminate();
             /////
             Exception ex = updateChangesOntologies(datasetUri, name);
             if (ex != null) {
@@ -186,6 +185,7 @@ public class ComplexChangeImpl {
             }
             ////
             utils.getJDBCRepository().executeUpdateQuery("checkpoint", false);
+            utils.terminate();
             return Response.status(code).entity(json).build();
         } catch (Exception ex) {
             result = false;
