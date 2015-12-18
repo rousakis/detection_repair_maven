@@ -120,11 +120,13 @@ public class ComplexChangeImpl {
                 result = false;
                 code = 204;
             }
+            res.close();
         } catch (SQLException ex) {
             message = ex.getMessage();
             result = false;
             code = 400;
         }
+
         jdbcRep.terminate();
         String json = "{ \"Message\" : " + message + ", \"Result\" : " + result + " }";
         return Response.status(code).entity(json).build();
