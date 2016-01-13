@@ -1,0 +1,314 @@
+@prefix co: <http://www.diachron-fp7.eu/changes/> 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+
+# This file contains all the simple change definitions in TURTLE format. Each simple change is classified under the class co:Simple_Change. 
+# Moreover, each simple change is connected with its parameter via parameter properties. 
+# Finally, each parameter is encoded as a property which has as domain the corresponding simple change, as range the rdfs:Resource and finally, it has a parameter name. 
+
+# Definition of Simple Change with name: ADD_COMMENT
+co:Add_Comment rdf:type rdfs:Class.
+co:Add_Comment rdfs:subClassOf  co:Simple_Change.
+co:Add_Comment co:name "ADD_COMMENT".
+# Parameters definition 
+co:ac_p2 rdf:type rdf:Property.
+co:ac_p2 rdfs:domain co:Add_Comment.
+co:ac_p2 rdfs:range rdfs:Resource.
+co:ac_p2 co:name "comment".
+co:ac_p1 rdf:type rdf:Property.
+co:ac_p1 rdfs:domain co:Add_Comment.
+co:ac_p1 rdfs:range rdfs:Resource.
+co:ac_p1 co:name "subject".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_COMMENT
+co:Delete_Comment rdf:type rdfs:Class.
+co:Delete_Comment rdfs:subClassOf  co:Simple_Change.
+co:Delete_Comment co:name "DELETE_COMMENT".
+# Parameters definition 
+co:dc_p1 rdf:type rdf:Property.
+co:dc_p1 rdfs:domain co:Delete_Comment.
+co:dc_p1 rdfs:range rdfs:Resource.
+co:dc_p1 co:name "subject".
+co:dc_p2 rdf:type rdf:Property.
+co:dc_p2 rdfs:domain co:Delete_Comment.
+co:dc_p2 rdfs:range rdfs:Resource.
+co:dc_p2 co:name "comment".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_DOMAIN
+co:Add_Domain rdf:type rdfs:Class.
+co:Add_Domain rdfs:subClassOf  co:Simple_Change.
+co:Add_Domain co:name "ADD_DOMAIN".
+# Parameters definition 
+co:ad_p2 rdf:type rdf:Property.
+co:ad_p2 rdfs:domain co:Add_Domain.
+co:ad_p2 rdfs:range rdfs:Resource.
+co:ad_p2 co:name "domain".
+co:ad_p1 rdf:type rdf:Property.
+co:ad_p1 rdfs:domain co:Add_Domain.
+co:ad_p1 rdfs:range rdfs:Resource.
+co:ad_p1 co:name "property".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_DOMAIN
+co:Delete_Domain rdf:type rdfs:Class.
+co:Delete_Domain rdfs:subClassOf  co:Simple_Change.
+co:Delete_Domain co:name "DELETE_DOMAIN".
+# Parameters definition 
+co:dd_p1 rdf:type rdf:Property.
+co:dd_p1 rdfs:domain co:Delete_Domain.
+co:dd_p1 rdfs:range rdfs:Resource.
+co:dd_p1 co:name "property".
+co:dd_p2 rdf:type rdf:Property.
+co:dd_p2 rdfs:domain co:Delete_Domain.
+co:dd_p2 rdfs:range rdfs:Resource.
+co:dd_p2 co:name "domain".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_LABEL
+co:Add_Label rdf:type rdfs:Class.
+co:Add_Label rdfs:subClassOf  co:Simple_Change.
+co:Add_Label co:name "ADD_LABEL".
+# Parameters definition 
+co:al_p2 rdf:type rdf:Property.
+co:al_p2 rdfs:domain co:Add_Label.
+co:al_p2 rdfs:range rdfs:Resource.
+co:al_p2 co:name "label".
+co:al_p1 rdf:type rdf:Property.
+co:al_p1 rdfs:domain co:Add_Label.
+co:al_p1 rdfs:range rdfs:Resource.
+co:al_p1 co:name "subject".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_DOMAIN
+co:Delete_Label rdf:type rdfs:Class.
+co:Delete_Label rdfs:subClassOf  co:Simple_Change.
+co:Delete_Label co:name "DELETE_DOMAIN".
+# Parameters definition 
+co:dl_p1 rdf:type rdf:Property.
+co:dl_p1 rdfs:domain co:Delete_Label.
+co:dl_p1 rdfs:range rdfs:Resource.
+co:dl_p1 co:name "property".
+co:dl_p2 rdf:type rdf:Property.
+co:dl_p2 rdfs:domain co:Delete_Label.
+co:dl_p2 rdfs:range rdfs:Resource.
+co:dl_p2 co:name "domain".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_PROPERTY_INSTANCE
+co:Add_Property_Instance rdf:type rdfs:Class.
+co:Add_Property_Instance rdfs:subClassOf  co:Simple_Change.
+co:Add_Property_Instance co:name "ADD_PROPERTY_INSTANCE".
+# Parameters definition 
+co:api_p2 rdf:type rdf:Property.
+co:api_p2 rdfs:domain co:Add_Property_Instance.
+co:api_p2 rdfs:range rdfs:Resource.
+co:api_p2 co:name "property".
+co:api_p1 rdf:type rdf:Property.
+co:api_p1 rdfs:domain co:Add_Property_Instance.
+co:api_p1 rdfs:range rdfs:Resource.
+co:api_p1 co:name "subject".
+co:api_p3 rdf:type rdf:Property.
+co:api_p3 rdfs:domain co:Add_Property_Instance.
+co:api_p3 rdfs:range rdfs:Resource.
+co:api_p3 co:name "object".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_PROPERTY_INSTANCE
+co:Delete_Property_Instance rdf:type rdfs:Class.
+co:Delete_Property_Instance rdfs:subClassOf  co:Simple_Change.
+co:Delete_Property_Instance co:name "DELETE_PROPERTY_INSTANCE".
+# Parameters definition 
+co:dpi_p3 rdf:type rdf:Property.
+co:dpi_p3 rdfs:domain co:Delete_Property_Instance.
+co:dpi_p3 rdfs:range rdfs:Resource.
+co:dpi_p3 co:name "object".
+co:dpi_p2 rdf:type rdf:Property.
+co:dpi_p2 rdfs:domain co:Delete_Property_Instance.
+co:dpi_p2 rdfs:range rdfs:Resource.
+co:dpi_p2 co:name "property".
+co:dpi_p1 rdf:type rdf:Property.
+co:dpi_p1 rdfs:domain co:Delete_Property_Instance.
+co:dpi_p1 rdfs:range rdfs:Resource.
+co:dpi_p1 co:name "subject".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_RANGE
+co:Add_Range rdf:type rdfs:Class.
+co:Add_Range rdfs:subClassOf  co:Simple_Change.
+co:Add_Range co:name "ADD_RANGE".
+# Parameters definition 
+co:ar_p2 rdf:type rdf:Property.
+co:ar_p2 rdfs:domain co:Add_Range.
+co:ar_p2 rdfs:range rdfs:Resource.
+co:ar_p2 co:name "range".
+co:ar_p1 rdf:type rdf:Property.
+co:ar_p1 rdfs:domain co:Add_Range.
+co:ar_p1 rdfs:range rdfs:Resource.
+co:ar_p1 co:name "property".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_RANGE
+co:Delete_Range rdf:type rdfs:Class.
+co:Delete_Range rdfs:subClassOf  co:Simple_Change.
+co:Delete_Range co:name "DELETE_RANGE".
+# Parameters definition 
+co:dr_p1 rdf:type rdf:Property.
+co:dr_p1 rdfs:domain co:Delete_Range.
+co:dr_p1 rdfs:range rdfs:Resource.
+co:dr_p1 co:name "property".
+co:dr_p2 rdf:type rdf:Property.
+co:dr_p2 rdfs:domain co:Delete_Range.
+co:dr_p2 rdfs:range rdfs:Resource.
+co:dr_p2 co:name "range".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_SUPERCLASS
+co:Add_Superclass rdf:type rdfs:Class.
+co:Add_Superclass rdfs:subClassOf  co:Simple_Change.
+co:Add_Superclass co:name "ADD_SUPERCLASS".
+# Parameters definition 
+co:asc_p1 rdf:type rdf:Property.
+co:asc_p1 rdfs:domain co:Add_Superclass.
+co:asc_p1 rdfs:range rdfs:Resource.
+co:asc_p1 co:name "subclass".
+co:asc_p2 rdf:type rdf:Property.
+co:asc_p2 rdfs:domain co:Add_Superclass.
+co:asc_p2 rdfs:range rdfs:Resource.
+co:asc_p2 co:name "superclass".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_SUPERCLASS
+co:Delete_Superclass rdf:type rdfs:Class.
+co:Delete_Superclass rdfs:subClassOf  co:Simple_Change.
+co:Delete_Superclass co:name "DELETE_SUPERCLASS".
+# Parameters definition 
+co:dsc_p1 rdf:type rdf:Property.
+co:dsc_p1 rdfs:domain co:Delete_Superclass.
+co:dsc_p1 rdfs:range rdfs:Resource.
+co:dsc_p1 co:name "subclass".
+co:dsc_p2 rdf:type rdf:Property.
+co:dsc_p2 rdfs:domain co:Delete_Superclass.
+co:dsc_p2 rdfs:range rdfs:Resource.
+co:dsc_p2 co:name "superclass".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_SUPERPROPERTY
+co:Add_Superproperty rdf:type rdfs:Class.
+co:Add_Superproperty rdfs:subClassOf  co:Simple_Change.
+co:Add_Superproperty co:name "ADD_SUPERPROPERTY".
+# Parameters definition 
+co:asp_p2 rdf:type rdf:Property.
+co:asp_p2 rdfs:domain co:Add_Superproperty.
+co:asp_p2 rdfs:range rdfs:Resource.
+co:asp_p2 co:name "superproperty".
+co:asp_p1 rdf:type rdf:Property.
+co:asp_p1 rdfs:domain co:Add_Superproperty.
+co:asp_p1 rdfs:range rdfs:Resource.
+co:asp_p1 co:name "subproperty".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_SUPERPROPERTY
+co:Delete_Superproperty rdf:type rdfs:Class.
+co:Delete_Superproperty rdfs:subClassOf  co:Simple_Change.
+co:Delete_Superproperty co:name "DELETE_SUPERPROPERTY".
+# Parameters definition 
+co:dsp_p1 rdf:type rdf:Property.
+co:dsp_p1 rdfs:domain co:Delete_Superproperty.
+co:dsp_p1 rdfs:range rdfs:Resource.
+co:dsp_p1 co:name "subproperty".
+co:dsp_p2 rdf:type rdf:Property.
+co:dsp_p2 rdfs:domain co:Delete_Superproperty.
+co:dsp_p2 rdfs:range rdfs:Resource.
+co:dsp_p2 co:name "superproperty".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_TYPE_CLASS
+co:Add_Type_Class rdf:type rdfs:Class.
+co:Add_Type_Class rdfs:subClassOf  co:Simple_Change.
+co:Add_Type_Class co:name "ADD_TYPE_CLASS".
+# Parameters definition 
+co:atc_p1 rdf:type rdf:Property.
+co:atc_p1 rdfs:domain co:Add_Type_Class.
+co:atc_p1 rdfs:range rdfs:Resource.
+co:atc_p1 co:name "class".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_TYPE_CLASS
+co:Delete_Type_Class rdf:type rdfs:Class.
+co:Delete_Type_Class rdfs:subClassOf  co:Simple_Change.
+co:Delete_Type_Class co:name "DELETE_TYPE_CLASS".
+# Parameters definition 
+co:dtc_p1 rdf:type rdf:Property.
+co:dtc_p1 rdfs:domain co:Delete_Type_Class.
+co:dtc_p1 rdfs:range rdfs:Resource.
+co:dtc_p1 co:name "property".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_TYPE_PROPERTY
+co:Add_Type_Property rdf:type rdfs:Class.
+co:Add_Type_Property rdfs:subClassOf  co:Simple_Change.
+co:Add_Type_Property co:name "ADD_TYPE_PROPERTY".
+# Parameters definition 
+co:atp_p1 rdf:type rdf:Property.
+co:atp_p1 rdfs:domain co:Add_Type_Property.
+co:atp_p1 rdfs:range rdfs:Resource.
+co:atp_p1 co:name "property".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_TYPE_PROPERTY
+co:Delete_Type_Property rdf:type rdfs:Class.
+co:Delete_Type_Property rdfs:subClassOf  co:Simple_Change.
+co:Delete_Type_Property co:name "DELETE_TYPE_PROPERTY".
+# Parameters definition 
+co:dtp_p1 rdf:type rdf:Property.
+co:dtp_p1 rdfs:domain co:Delete_Type_Property.
+co:dtp_p1 rdfs:range rdfs:Resource.
+co:dtp_p1 co:name "property".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ADD_TYPE_TO_INDIVIDUAL
+co:Add_Type_To_Individual rdf:type rdfs:Class.
+co:Add_Type_To_Individual rdfs:subClassOf  co:Simple_Change.
+co:Add_Type_To_Individual co:name "ADD_TYPE_TO_INDIVIDUAL".
+# Parameters definition 
+co:atti_p1 rdf:type rdf:Property.
+co:atti_p1 rdfs:domain co:Add_Type_To_Individual.
+co:atti_p1 rdfs:range rdfs:Resource.
+co:atti_p1 co:name "individual".
+co:atti_p2 rdf:type rdf:Property.
+co:atti_p2 rdfs:domain co:Add_Type_To_Individual.
+co:atti_p2 rdfs:range rdfs:Resource.
+co:atti_p2 co:name "type".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: DELETE_TYPE_FROM_INDIVIDUAL
+co:Delete_Type_From_Individual rdf:type rdfs:Class.
+co:Delete_Type_From_Individual rdfs:subClassOf  co:Simple_Change.
+co:Delete_Type_From_Individual co:name "DELETE_TYPE_FROM_INDIVIDUAL".
+# Parameters definition 
+co:dtfi_p1 rdf:type rdf:Property.
+co:dtfi_p1 rdfs:domain co:Delete_Type_From_Individual.
+co:dtfi_p1 rdfs:range rdfs:Resource.
+co:dtfi_p1 co:name "individual".
+co:dtfi_p2 rdf:type rdf:Property.
+co:dtfi_p2 rdfs:domain co:Delete_Type_From_Individual.
+co:dtfi_p2 rdfs:range rdfs:Resource.
+co:dtfi_p2 co:name "type".
+# End of parameters' definition and change's definition. 
+
+# Definition of Simple Change with name: ASSOCIATION
+co:Association rdf:type rdfs:Class.
+co:Association rdfs:subClassOf  co:Simple_Change.
+co:Association co:name "ASSOCIATION".
+# Parameters definition 
+co:assoc_p1 rdf:type rdf:Property.
+co:assoc_p1 rdfs:domain co:Association.
+co:assoc_p1 rdfs:range rdfs:Resource.
+co:assoc_p1 co:name "old_value".
+co:assoc_p2 rdf:type rdf:Property.
+co:assoc_p2 rdfs:domain co:Association.
+co:assoc_p2 rdfs:range rdfs:Resource.
+co:assoc_p2 co:name "new_value".
+# End of parameters' definition and change's definition. 
