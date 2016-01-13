@@ -1,0 +1,381 @@
+[
+{
+  "Simple_Change" : "Add_Dimension",
+  "Simple_Change_Name" : "ADD_DIMENSION",
+  "Parameters" : ["addDim_p1"],
+  "Parameter_Names" : ["dimension"]
+}, 
+{
+  "Simple_Change" : "Delete_Dimension",
+  "Simple_Change_Name" : "DELETE_DIMENSION",
+  "Parameters" : ["delDim_p1"],
+  "Parameter_Names" : ["dimension"]
+},
+{
+  "Simple_Change" : "Attach_Datatype_To_Dimension",
+  "Simple_Change_Name" : "ATTACH_DATATYPE_TO_DIMENSION",
+  "Parameters" : ["attDtypeToDim_p1","attDtypeToDim_p2"],
+  "Parameter_Names" : ["dimension", "datatype"]
+}, 
+{
+  "Simple_Change" : "Detach_Datatype_From_Dimension",
+  "Simple_Change_Name" : "DETACH_DATATYPE_FROM_DIMENSION",
+  "Parameters" : ["detDtypeFromDim_p1","detDtypeFromDim_p2"],
+  "Parameter_Names" : ["dimension", "datatype"]
+},
+{
+  "Simple_Change" : "Attach_Attr_To_Dimension",
+  "Simple_Change_Name" : "ATTACH_ATTR_TO_DIMENSION",
+  "Parameters" : ["attAttToDim_p1","attAttToDim_p2"],
+  "Parameter_Names" : ["dimension", "attribute"]
+}, 
+{
+  "Simple_Change" : "Detach_Attr_From_Dimension",
+  "Simple_Change_Name" : "DETACH_ATTR_FROM_DIMENSION",
+  "Parameters" : ["detachAttFromDim_p1","detachAttFromDim_p2"],
+  "Parameter_Names" : ["dimension", "attribute"]
+},
+{
+  "Simple_Change" : "Add_Observation",
+  "Simple_Change_Name" : "ADD_OBSERVATION",
+  "Parameters" : ["addOb_p1"],
+  "Parameter_Names" : ["observation"]
+}, 
+{
+  "Simple_Change" : "Delete_Observation",
+  "Simple_Change_Name" : "DELETE_OBSERVATION",
+  "Parameters" : ["delOb_p1"],
+  "Parameter_Names" : ["observation"]
+},
+{
+  "Simple_Change" : "Attach_Observation_To_FT",
+  "Simple_Change_Name" : "ATTACH_OBSERVATION_TO_FT",
+  "Parameters" : ["attObToFT_p1","attObToFT_p2"],
+  "Parameter_Names" : ["observation","fact_table"]
+}, 
+{
+  "Simple_Change" : "Detach_Observation_From_FT",
+  "Simple_Change_Name" : "DETACH_OBSERVATION_FROM_FT",
+  "Parameters" : ["detObFromFT_p1","detObFromFT_p2"],
+  "Parameter_Names" : ["observation","fact_table"]
+},
+{
+  "Simple_Change" : "Attach_Observation_To_DS",
+  "Simple_Change_Name" : "ATTACH_OBSERVATION_TO_DATASET",
+  "Parameters" : ["attObToDS_p1","attObToDS_p2"],
+  "Parameter_Names" : ["observation","dataset"]
+},
+{
+  "Simple_Change" : "Detach_Observation_From_DS",
+  "Simple_Change_Name" : "Detach_Observation_From_DATASET",
+  "Parameters" : ["detObFromDS_p1","detObFromDS_p2"],
+  "Parameter_Names" : ["observation","dataset"]
+},
+{
+  "Simple_Change" : "Add_Measure_Value_To_Observation",
+  "Simple_Change_Name" : "ADD_MEASURE_VALUE_TO_OBSERVATION",
+  "Parameters" : ["addMeasVToOb_p1","addMeasVToOb_p2","addMeasVToOb_p3"],
+  "Parameter_Names" : ["observation","measure","measure_val"]
+}, 
+{
+  "Simple_Change" : "Delete_Measure_Value_From_Observation",
+  "Simple_Change_Name" : "DELETE_MEASURE_VALUE_FROM_OBSERVATION",
+  "Parameters" : ["delMeasVFromOb_p1","delMeasVFromOb_p2","delMeasVFromOb_p3"],
+  "Parameter_Names" : ["observation","measure","measure_val"]
+}
+,
+{
+  "Simple_Change" : "Add_Dimension_Value_To_Observation",
+  "Simple_Change_Name" : "ADD_DIMENSION_VALUE_TO_OBSERVATION",
+  "Parameters" : ["addDimVToOb_p1","addDimVToOb_p2","addDimVToOb_p3"],
+  "Parameter_Names" : ["observation","dimension","dimension_val"]
+}, 
+{
+  "Simple_Change" : "Delete_Dimension_Value_From_Observation",
+  "Simple_Change_Name" : "DELETE_DIMENSION_VALUE_FROM_OBSERVATION",
+  "Parameters" : ["delDimVFromOb_p1","delDimVFromOb_p2","delDimVFromOb_p3"],
+  "Parameter_Names" : ["observation","dimension","dimension_val"]
+},
+{
+  "Simple_Change" : "Add_Codelist",
+  "Simple_Change_Name" : "ADD_CODELIST",
+  "Parameters" : ["addClist_p1"],
+  "Parameter_Names" : ["codelist"]
+}, 
+{
+  "Simple_Change" : "Delete_Codelist",
+  "Simple_Change_Name" : "DELETE_CODELIST",
+  "Parameters" : ["delClist_p1"],
+  "Parameter_Names" : ["codelist"]
+}, 
+{
+  "Simple_Change" : "Add_Hierarchy",
+  "Simple_Change_Name" : "ADD_HIERARCHY",
+  "Parameters" : ["addH_p1"],
+  "Parameter_Names" : ["hierarchy"]
+}, 
+{
+  "Simple_Change" : "Delete_Hierarchy",
+  "Simple_Change_Name" : "DELETE_HIERARCHY",
+  "Parameters" : ["delH_p1"],
+  "Parameter_Names" : ["hierarchy"]
+},
+{
+  "Simple_Change" : "Attach_Codelist_To_Dimension",
+  "Simple_Change_Name" : "ATTACH_CODELIST_TO_DIMENSION",
+  "Parameters" : ["attClistToDim_p1","attClistToDim_p2"],
+  "Parameter_Names" : ["dimension","codelist"]
+}, 
+{
+  "Simple_Change" : "Detach_Codelist_From_Dimension",
+  "Simple_Change_Name" : "DETACH_CODELIST_FROM_DIMENSION",
+  "Parameters" : ["detClistFromDim_p1","detClistFromDim_p2"],
+  "Parameter_Names" : ["dimension","codelist"]
+},
+{
+  "Simple_Change" : "Attach_Hierarchy_To_Dimension",
+  "Simple_Change_Name" : "ATTACH_HIERARCHY_TO_DIMENSION",
+  "Parameters" : ["attHierToDim_p1","attHierToDim_p2"],
+  "Parameter_Names" : ["dimension","hierarchy"]
+}, 
+{
+  "Simple_Change" : "Detach_Hierarchy_From_Dimension",
+  "Simple_Change_Name" : "DETACH_HIERARCHY_FROM_DIMENSION",
+  "Parameters" : ["detHierFromDim_p1","detHierFromDim_p2"],
+  "Parameter_Names" : ["dimension","hierarchy"]
+},
+{
+  "Simple_Change" : "Add_Instance",
+  "Simple_Change_Name" : "ADD_INSTANCE",
+  "Parameters" : ["addInst_p1"],
+  "Parameter_Names" : ["instance"]
+}, 
+{
+  "Simple_Change" : "Delete_Instance",
+  "Simple_Change_Name" : "DELETE_INSTANCE",
+  "Parameters" : ["delInst_p1"],
+  "Parameter_Names" : ["instance"]
+},
+{
+  "Simple_Change" : "Attach_Instance_To_Codelist",
+  "Simple_Change_Name" : "ATTACH_INSTANCE_TO_CODELIST",
+  "Parameters" : ["attInstToClist_p1","attInstToClist_p2"],
+  "Parameter_Names" : ["codelist","instance"]
+}, 
+{
+  "Simple_Change" : "Detach_Instance_From_Codelist",
+  "Simple_Change_Name" : "DETACH_INSTANCE_FROM_CODELIST",
+  "Parameters" : ["detInstFromClist_p1","detInstFromClist_p2"],
+  "Parameter_Names" : ["codelist","instance"]
+},
+{
+  "Simple_Change" : "Attach_Instance_To_Hierarchy",
+  "Simple_Change_Name" : "ATTACH_INSTANCE_TO_HIERARCHY",
+  "Parameters" : ["attInstToHier_p1","attInstToHier_p2"],
+  "Parameter_Names" : ["hierarchy","instance"]
+}, 
+{
+  "Simple_Change" : "Detach_Instance_From_Hierarchy",
+  "Simple_Change_Name" : "DETACH_INSTANCE_FROM_HIERARCHY",
+  "Parameters" : ["detInstFromHier_p1","detInstFromHier_p2"],
+  "Parameter_Names" : ["hierarchy","instance"]
+}, 
+{
+  "Simple_Change" : "Attach_Instance_To_Parent",
+  "Simple_Change_Name" : "ATTACH_INSTANCE_TO_PARENT",
+  "Parameters" : ["attInstToPar_p1","attInstToPar_p2"],
+  "Parameter_Names" : ["instance","parent"]
+}, 
+{
+  "Simple_Change" : "Detach_Instance_From_Parent",
+  "Simple_Change_Name" : "DETACH_INSTANCE_FROM_PARENT",
+  "Parameters" : ["detInstFromPar_p1","detInstFromPar_p2"],
+  "Parameter_Names" : ["instance","parent"]
+},
+{
+  "Simple_Change" : "Add_Measure",
+  "Simple_Change_Name" : "ADD_MEASURE",
+  "Parameters" : ["addMeas_p1"],
+  "Parameter_Names" : ["measure"]
+}, 
+{
+  "Simple_Change" : "Delete_Measure",
+  "Simple_Change_Name" : "DELETE_MEASURE",
+  "Parameters" : ["delMeas_p1"],
+  "Parameter_Names" : ["measure"]
+},
+{
+  "Simple_Change" : "Attach_Type_To_Measure",
+  "Simple_Change_Name" : "ATTACH_TYPE_TO_MEASURE",
+  "Parameters" : ["attTypeToMeas_p1","attTypeToMeas_p2"],
+  "Parameter_Names" : ["type","measure"]
+}, 
+{
+  "Simple_Change" : "Detach_Type_From_Measure",
+  "Simple_Change_Name" : "DETACH_TYPE_FROM_MEASURE",
+  "Parameters" : ["detTypeFromMeas_p1","detTypeFromMeas_p2"],
+  "Parameter_Names" : ["type","measure"]
+},
+{
+  "Simple_Change" : "Add_Fact_Table",
+  "Simple_Change_Name" : "ADD_FACT_TABLE",
+  "Parameters" : ["addFT_p1"],
+  "Parameter_Names" : ["fact_table"]
+}, 
+{
+  "Simple_Change" : "Delete_Fact_Table",
+  "Simple_Change_Name" : "DELETE_FACT_TABLE",
+  "Parameters" : ["delFT_p1"],
+  "Parameter_Names" : ["fact_table"]
+},
+{
+  "Simple_Change" : "Attach_Measure_To_FT",
+  "Simple_Change_Name" : "ATTACH_MEASURE_TO_FT",
+  "Parameters" : ["attMeasToFT_p1","attMeasToFT_p2"],
+  "Parameter_Names" : ["measure","fact_table"]
+}, 
+{
+  "Simple_Change" : "Detach_Measure_From_FT",
+  "Simple_Change_Name" : "DETACH_MEASURE_FROM_FT",
+  "Parameters" : ["detMeasToFT_p1","detMeasToFT_p2"],
+  "Parameter_Names" : ["measure","fact_table"]
+},
+{
+  "Simple_Change" : "Attach_Dimension_To_FT",
+  "Simple_Change_Name" : "ATTACH_DIMENSION_TO_FT",
+  "Parameters" : ["attDimToFT_p1","attDimToFT_p2"],
+  "Parameter_Names" : ["dimension","fact_table"]
+}, 
+{
+  "Simple_Change" : "Detach_Dimension_From_FT",
+  "Simple_Change_Name" : "DETACH_DIMENSION_FROM_FT",
+  "Parameters" : ["detDimFromFT_p1","detDimFromFT_p2"],
+  "Parameter_Names" : ["dimension","fact_table"]
+},
+{
+  "Simple_Change" : "Add_Relevancy",
+  "Simple_Change_Name" : "ADD_RELEVANCY",
+  "Parameters" : ["addRel_p1","addRel_p2"],
+  "Parameter_Names" : ["1st_arg","2nd_arg"]
+},
+{
+  "Simple_Change" : "Delete_Relevancy",
+  "Simple_Change_Name" : "DELETE_RELEVANCY",
+  "Parameters" : ["delRel_p1","delRel_p2"],
+  "Parameter_Names" : ["1st_arg","2nd_arg"]
+}, 
+{
+  "Simple_Change" : "Add_Label",
+  "Simple_Change_Name" : "ADD_LABEL",
+  "Parameters" : ["addLab_p1","addLab_p2","addLab_p3"],
+  "Parameter_Names" : ["subj_label","prop_label","obj_label"]
+},
+{
+  "Simple_Change" : "Delete_Label",
+  "Simple_Change_Name" : "DELETE_LABEL",
+  "Parameters" : ["delLab_p1","delLab_p2","delLab_p3"],
+  "Parameter_Names" : ["subj_label","prop_label","obj_label"]
+}, 
+{
+  "Simple_Change" : "Add_Unknown_Property",
+  "Simple_Change_Name" : "ADD_UNKNOWN_PROPERTY",
+  "Parameters" : ["addUnProp_p1","addUnProp_p2","addUnProp_p3"],
+  "Parameter_Names" : ["subj_un_prop","prop_un_prop","obj_un_prop"]
+},
+{
+  "Simple_Change" : "Delete_Unknown_Property",
+  "Simple_Change_Name" : "DELETE_UNKNOWN_PROPERTY",
+  "Parameters" : ["delUnProp_p1","delUnProp_p2","delUnProp_p3"],
+  "Parameter_Names" : ["subj_un_prop","prop_un_prop","obj_un_prop"]
+}, 
+{
+  "Simple_Change" : "Add_Datatype",
+  "Simple_Change_Name" : "ADD_DATATYPE",
+  "Parameters" : ["addDtype_p1", "addDtype_p2"],
+  "Parameter_Names" : ["subject", "datatype"]
+}, 
+{
+  "Simple_Change" : "Delete_Datatype",
+  "Simple_Change_Name" : "DELETE_DATATYPE",
+  "Parameters" : ["delDtype_p1", "delDtype_p2"],
+  "Parameter_Names" : ["subject", "datatype"]
+},
+{
+  "Simple_Change" : "Add_Attribute",
+  "Simple_Change_Name" : "ADD_ATTRIBUTE",
+  "Parameters" : ["addAtt_p1"],
+  "Parameter_Names" : ["attribute"]
+},
+{
+  "Simple_Change" : "Delete_Attribute",
+  "Simple_Change_Name" : "DELETE_ATTRIBUTE",
+  "Parameters" : ["delAtt_p1"],
+  "Parameter_Names" : ["attribute"]
+}, 
+{
+  "Simple_Change" : "Add_Generic_Attribute",
+  "Simple_Change_Name" : "ADD_GENERIC_ATTRIBUTE",
+  "Parameters" : ["addGenAtt_p1","addGenAtt_p2"],
+  "Parameter_Names" : ["subj","attribute"]
+},
+{
+  "Simple_Change" : "Delete_Generic_Attribute",
+  "Simple_Change_Name" : "DELETE_GENERIC_ATTRIBUTE",
+  "Parameters" : ["delGenAtt_p1","delGenAtt_p2"],
+  "Parameter_Names" : ["subj","attribute"]
+},
+{
+  "Simple_Change" : "Add_Generic_Value_To_Observation",
+  "Simple_Change_Name" : "ADD_GENERIC_VALUE_TO_OBSERVATION",
+  "Parameters" : ["addGenVToOb_p1","addGenVToOb_p2","addGenVToOb_p3"],
+  "Parameter_Names" : ["observation","property", "value"]
+}, 
+{
+  "Simple_Change" : "Delete_Generic_Value_From_Observation",
+  "Simple_Change_Name" : "DELETE_GENERIC_VALUE_FROM_OBSERVATION",
+  "Parameters" : ["delGenVFromOb_p1","delGenVFromOb_p2","delGenVFromOb_p3"],
+  "Parameter_Names" : ["observation","property", "value"]
+}, 
+{
+  "Simple_Change" : "Delete_Generic_Value_From_Observation",
+  "Simple_Change_Name" : "DELETE_GENERIC_VALUE_FROM_OBSERVATION",
+  "Parameters" : ["dgvfo_p1","dgvfo_p2","dgvfo_p3"],
+  "Parameter_Names" : ["observation","property", "value"]
+}, 
+{
+  "Simple_Change" : "Add_inScheme",
+  "Simple_Change_Name" : "ADD_INSCHEME",
+  "Parameters" : ["addInSch_p1","addInSch_p2"],
+  "Parameter_Names" : ["subj","scheme"]
+}, 
+{
+  "Simple_Change" : "Delete_inScheme",
+  "Simple_Change_Name" : "DELETE_INSCHEME",
+  "Parameters" : ["delInSch_p1","delInSch_p2"],
+  "Parameter_Names" : ["subj","scheme"]
+},
+{
+  "Simple_Change" : "Add_Instance_To_Parent",
+  "Simple_Change_Name" : "ADD_INSTANCE_TO_PARENT",
+  "Parameters" : ["addInstToPar_p1","addInstToPar_p2"],
+  "Parameter_Names" : ["instance","parent"]
+},
+{
+  "Simple_Change" : "Delete_Instance_From_Parent",
+  "Simple_Change_Name" : "DELETE_INSTANCE_FROM_PARENT",
+  "Parameters" : ["delInstFromPar_p1","delInstFromPar_p2"],
+  "Parameter_Names" : ["instance","parent"]
+}
+{
+  "Simple_Change" : "Attach_Attr_To_Measure",
+  "Simple_Change_Name" : "ATTACH_ATTR_TO_MEASURE",
+  "Parameters" : ["attachAttToMeas_p1","attachAttToMeas_p2"],
+  "Parameter_Names" : ["measure","attribute"]
+},
+{
+  "Simple_Change" : "Detach_Attr_From_Measure",
+  "Simple_Change_Name" : "DETACH_ATTR_FROM_MEASURE",
+  "Parameters" : ["detAttFromMeas_p1","detAttFromMeas_p2"],
+  "Parameter_Names" : ["measure","attribute"]
+}
+]

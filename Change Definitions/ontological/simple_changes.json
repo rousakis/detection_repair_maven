@@ -1,0 +1,128 @@
+[
+{
+  "Simple_Change" : "Add_Comment",
+  "Simple_Change_Name" : "ADD_COMMENT",
+  "Parameters" : ["ac_p1", "ac_p2"],
+  "Parameter_Names" : ["subject", "comment"]
+},
+{
+  "Simple_Change" : "Delete_Comment",
+  "Simple_Change_Name" : "DELETE_COMMENT",
+  "Parameters" : ["dc_p1", "dc_p2"],
+  "Parameter_Names" : ["subject", "comment"]
+},
+{
+  "Simple_Change" : "Add_Domain",
+  "Simple_Change_Name" : "ADD_DOMAIN",
+  "Parameters" : ["ad_p1", "ad_p2"],
+  "Parameter_Names" : ["property", "domain"]
+}, 
+{
+  "Simple_Change" : "Delete_Domain",
+  "Simple_Change_Name" : "DELETE_DOMAIN",
+  "Parameters" : ["dd_p1", "dd_p2"],
+  "Parameter_Names" : ["property", "domain"]
+},
+{
+  "Simple_Change" : "Add_Label",
+  "Simple_Change_Name" : "ADD_LABEL",
+  "Parameters" : ["al_p1", "al_p2"],
+  "Parameter_Names" : ["subject", "label"]
+}, 
+{
+  "Simple_Change" : "Delete_Label",
+  "Simple_Change_Name" : "DELETE_DOMAIN",
+  "Parameters" : ["dl_p1", "dl_p2"],
+  "Parameter_Names" : ["property", "domain"]
+},
+{
+  "Simple_Change" : "Add_Property_Instance",
+  "Simple_Change_Name" : "ADD_PROPERTY_INSTANCE",
+  "Parameters" : ["api_p1","api_p2","api_p3"],
+  "Parameter_Names" : ["subject","property","object"]
+},
+{
+  "Simple_Change" : "Delete_Property_Instance",
+  "Simple_Change_Name" : "DELETE_PROPERTY_INSTANCE",
+  "Parameters" : ["dpi_p1","dpi_p2","dpi_p3"],
+  "Parameter_Names" : ["subject","property","object"]
+},  
+{
+  "Simple_Change" : "Add_Range",
+  "Simple_Change_Name" : "ADD_RANGE",
+  "Parameters" : ["ar_p1", "ar_p2"],
+  "Parameter_Names" : ["property", "range"]
+}, 
+{
+  "Simple_Change" : "Delete_Range",
+  "Simple_Change_Name" : "DELETE_RANGE",
+  "Parameters" : ["dr_p1", "dr_p2"],
+  "Parameter_Names" : ["property", "range"]
+},
+{
+  "Simple_Change" : "Add_Superclass",
+  "Simple_Change_Name" : "ADD_SUPERCLASS",
+  "Parameters" : ["asc_p1", "asc_p2"],
+  "Parameter_Names" : ["subclass", "superclass"]
+},
+{
+  "Simple_Change" : "Delete_Superclass",
+  "Simple_Change_Name" : "DELETE_SUPERCLASS",
+  "Parameters" : ["dsc_p1", "dsc_p2"],
+  "Parameter_Names" : ["subclass", "superclass"]
+},
+{
+  "Simple_Change" : "Add_Superproperty",
+  "Simple_Change_Name" : "ADD_SUPERPROPERTY",
+  "Parameters" : ["asp_p1", "asp_p2"],
+  "Parameter_Names" : ["subproperty", "superproperty"]
+},
+{
+  "Simple_Change" : "Delete_Superproperty",
+  "Simple_Change_Name" : "DELETE_SUPERPROPERTY",
+  "Parameters" : ["dsp_p1", "dsp_p2"],
+  "Parameter_Names" : ["subproperty", "superproperty"]
+},
+{
+  "Simple_Change" : "Add_Type_Class",
+  "Simple_Change_Name" : "ADD_TYPE_CLASS",
+  "Parameters" : ["atc_p1"],
+  "Parameter_Names" : ["class"]
+},
+{
+  "Simple_Change" : "Delete_Type_Class",
+  "Simple_Change_Name" : "DELETE_TYPE_CLASS",
+  "Parameters" : ["dtc_p1"],
+  "Parameter_Names" : ["property"]
+},  
+{
+  "Simple_Change" : "Add_Type_Property",
+  "Simple_Change_Name" : "ADD_TYPE_PROPERTY",
+  "Parameters" : ["atp_p1"],
+  "Parameter_Names" : ["property"]
+},
+{
+  "Simple_Change" : "Delete_Type_Property",
+  "Simple_Change_Name" : "DELETE_TYPE_PROPERTY",
+  "Parameters" : ["dtp_p1"],
+  "Parameter_Names" : ["property"]
+},  
+{
+  "Simple_Change" : "Add_Type_To_Individual",
+  "Simple_Change_Name" : "ADD_TYPE_TO_INDIVIDUAL",
+  "Parameters" : ["atti_p1","atti_p2"],
+  "Parameter_Names" : ["individual","type"]
+},
+{
+  "Simple_Change" : "Delete_Type_From_Individual",
+  "Simple_Change_Name" : "DELETE_TYPE_FROM_INDIVIDUAL",
+  "Parameters" : ["dtfi_p1","dtfi_p2"],
+  "Parameter_Names" : ["individual","type"]
+},  
+{
+  "Simple_Change" : "Association",
+  "Simple_Change_Name" : "ASSOCIATION",
+  "Parameters" : ["assoc_p1", "assoc_p2"],
+  "Parameter_Names" : ["old_value", "new_value"]
+}
+]
