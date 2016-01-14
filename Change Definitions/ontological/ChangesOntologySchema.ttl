@@ -2,9 +2,12 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 
-# This file contains all the simple change definitions in TURTLE format. Each simple change is classified under the class co:Simple_Change. 
+# This file contains all the simple change definitions in TURTLE format for the Ontological Model. 
+# Each simple change is classified under the class co:Simple_Change. 
 # Moreover, each simple change is connected with its parameter via parameter properties. 
-# Finally, each parameter is encoded as a property which has as domain the corresponding simple change, as range the rdfs:Resource and finally, it has a parameter name. 
+# Finally, each parameter is encoded as a property which has as domain the corresponding simple change, 
+# as range the rdfs:Resource and finally, it has a parameter name. 
+# Examples of the use of this ontology can be found in deliverables D3.2, D3.3.
 
 # Definition of Simple Change with name: ADD_COMMENT
 co:Add_Comment rdf:type rdfs:Class.
