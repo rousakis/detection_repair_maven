@@ -8,7 +8,11 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import javax.ws.rs.core.MediaType;
+import org.diachron.detection.complex_change.CCManager;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import utils.Utils;
 
 /**
  *
@@ -16,20 +20,19 @@ import org.json.simple.JSONObject;
  */
 public class TestDefineCC {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Client c = Client.create();
         System.out.println("Testing Define CC Service...");
-        String ip = "139.91.183.48";
-//        ip = "localhost";
-        String url = "http://" + ip + ":8181/ForthMaven-1.0/diachron/complex_change";
+        String ip = "139.91.183.48:8181";
+        ip = "139.91.183.40:8080";
+        String url = "http://" + ip + "/ForthMaven-1.0/diachron/complex_change";
         WebResource r = c.resource(url);
 
         String ccDef = "{ "
                 + "\"Complex_Change\" : \"Mark_as_Obsolete_v2\", "
                 + "\"Priority\" : 1.0, "
                 + "\"Complex_Change_Parameters\": ["
-                + "{ \"obs_class\" : \"sc1:-subclass\" }, "
-                + "{ \"obs_reason\" : \"sc2:-object\" }"
+                + "{ \"obs_class\" : \"sc1:-subclass\" }"
                 + "],"
                 + "\"Simple_Changes\": ["
                 + "{"
@@ -39,26 +42,30 @@ public class TestDefineCC {
                 + "\"Selection_Filter\" : \"sc1:-superclass = <http://www.geneontology.org/formats/oboInOwl#ObsoleteClass>\", "
                 + "\"Mapping_Filter\" : \"\", "
                 + "\"Join_Filter\" : \"\" "
-                + "}, "
-                + "{"
-                + "\"Simple_Change\" : \"ADD_PROPERTY_INSTANCE\", "
-                + "\"Simple_Change_Uri\" : \"sc2\", "
-                + "\"Is_Optional\" : true, "
-                + "\"Selection_Filter\" : \"sc2:-property = efo:reason_for_obsolescence\", "
-                + "\"Mapping_Filter\" : \"\", "
-                + "\"Join_Filter\" : \"sc1:-subclass = sc2:-subject\" "
                 + "} ], "
                 + " \"Version_Filters\" : [\n"
                 + " ]"
                 + "}";
 
-        JSONObject input = new JSONObject();
-        input.put("Dataset_URI", "http://www.ebi.ac.uk/efo/");
-        input.put("CC_Definition", ccDef);
+        String datasetUri = "http://test";
 
-        ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input.toJSONString());
-        System.out.println(response.getEntity(String.class));
-        System.out.println(response.getStatus());
-        System.out.println("-----\n");
+//        JSONObject input = new JSONObject();
+//        input.put("Dataset_URI", datasetUri);
+//        input.put("CC_Definition", ccDef);
+////
+//        ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input.toJSONString());
+//        System.out.println(response.getEntity(String.class));
+//        System.out.println(response.getStatus());
+//        System.out.println("-----\n");
+        for (int i = 0; i < 500; i++) {
+            datasetUri = "http://test/" + i;
+            JSONObject input = new JSONObject();
+            input.put("Dataset_URI", datasetUri);
+            input.put("CC_Definition", ccDef);
+            ClientResponse response = r.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, input.toJSONString());
+            System.out.println(datasetUri + "\tStatus: " + response.getStatus());
+            System.out.println("-----");
+        }
+
     }
 }

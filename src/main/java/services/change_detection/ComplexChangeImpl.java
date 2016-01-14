@@ -120,11 +120,13 @@ public class ComplexChangeImpl {
                 result = false;
                 code = 204;
             }
+            res.close();
         } catch (SQLException ex) {
             message = ex.getMessage();
             result = false;
             code = 400;
         }
+
         jdbcRep.terminate();
         String json = "{ \"Message\" : " + message + ", \"Result\" : " + result + " }";
         return Response.status(code).entity(json).build();
@@ -174,7 +176,6 @@ public class ComplexChangeImpl {
                 message = "Complex Change was not found in the ontology of changes.";
             }
             String json = "{ \"Message\" : \"" + message + "\", \"Result\" : " + result + " }";
-            utils.terminate();
             /////
             Exception ex = updateChangesOntologies(datasetUri, name);
             if (ex != null) {
@@ -184,6 +185,7 @@ public class ComplexChangeImpl {
             }
             ////
             utils.getJDBCRepository().executeUpdateQuery("checkpoint", false);
+            utils.terminate();
             return Response.status(code).entity(json).build();
         } catch (Exception ex) {
             result = false;
@@ -328,6 +330,7 @@ public class ComplexChangeImpl {
                 message = ccDef.getCcDefError().getDescription();
                 result = false;
             }
+            ccDef.getJdbcRep().executeUpdateQuery("checkpoint", false);
             ccDef.terminate();
             ////
             Exception ex = updateChangesOntologies(datasetUri, ccName);
@@ -336,7 +339,6 @@ public class ComplexChangeImpl {
                 String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
                 return Response.status(400).entity(json).build();
             }
-            ccDef.getJdbcRep().executeUpdateQuery("checkpoint", false);
             ////
             String json = "{ \"Message\" : \"" + message + "\", \"Success\" : " + result + " }";
             return Response.status(code).entity(json).build();
@@ -349,9 +351,11 @@ public class ComplexChangeImpl {
             MCDUtils mcd = new MCDUtils(propertiesManager.getProperties(), datasetUri, true);
             mcd.deleteCCWithLessPriority(ccName);
             mcd.detectDatasets(true);
+            mcd.terminate();
         } catch (Exception ex) {
             return ex;
         }
+
         return null;
     }
 }
