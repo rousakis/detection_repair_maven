@@ -104,6 +104,7 @@ public class ChangeDetectionImpl {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changeDetectJSON(String inputMessage) {
         JSONParser jsonParser = new JSONParser();
+        ChangesDetector detector = null;
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(inputMessage);
             if (jsonObject.size() != 5 && jsonObject.size() != 6) {
@@ -125,16 +126,17 @@ public class ChangeDetectionImpl {
                     throw new ParseException(-1);
                 }
                 String changesOntologySchema = Utils.getDatasetSchema(datasetUri);
-                ChangesDetector detector = null;
+                ChangesManager cManager = null;
                 try {
-                    ChangesManager cManager = new ChangesManager(propertiesManager.getProperties(), datasetUri, oldVersion, newVersion, false);
+                    cManager = new ChangesManager(propertiesManager.getProperties(), datasetUri, oldVersion, newVersion, false);
                     String changesOntology = cManager.getChangesOntology();
-                    cManager.terminate();
                     detector = new ChangesDetector(propertiesManager.getProperties(), changesOntology, changesOntologySchema, associations);
                 } catch (Exception ex) {
                     String json = "{ \"Success\" : false, "
                             + "\"Message\" : \"Exception Occured: " + ex.getMessage() + " \" }";
                     return Response.status(400).entity(json).build();
+                } finally {
+                    if(cManager != null){cManager.terminate();}
                 }
                 if (ingest) {
                     detector.detectAssociations(oldVersion, newVersion);
@@ -150,7 +152,6 @@ public class ChangeDetectionImpl {
                 detector.detectComplexChanges(oldVersion, newVersion, cChanges);
                 String json = "{ \"Success\" : true, "
                         + "\"Message\" : \"Change detection among versions <" + oldVersion + ">, <" + newVersion + "> was executed. \" }";
-                detector.terminate();
                 return Response.status(200).entity(json).build();
             }
         } catch (ParseException ex) {
@@ -158,6 +159,8 @@ public class ChangeDetectionImpl {
             String json = "{ \"Success\" : false, "
                     + "\"Message\" : \"" + message + "\" }";
             return Response.status(400).entity(json).build();
+        } finally {
+            if (detector != null) {detector.terminate();}
         }
     }
 
@@ -189,13 +192,14 @@ public class ChangeDetectionImpl {
     public Response queryChangesOntologyGet(@QueryParam("query") String query,
             @QueryParam("format") String format) {
         OutputStream output = null;
+        SesameVirtRep sesame = null;
         try {
             String ip = propertiesManager.getPropertyValue("Repository_IP");
             String username = propertiesManager.getPropertyValue("Repository_Username");
             String password = propertiesManager.getPropertyValue("Repository_Password");
             String changesOntol = propertiesManager.getPropertyValue("Changes_Ontology");
             int port = Integer.parseInt(propertiesManager.getPropertyValue("Repository_Port"));
-            SesameVirtRep sesame = new SesameVirtRep(ip, port, username, password);
+            sesame = new SesameVirtRep(ip, port, username, password);
             query = query.replace(" where ", " from <" + changesOntol + "> ");
             TupleQuery tupleQuery = sesame.getCon().prepareTupleQuery(QueryLanguage.SPARQL, query);
             output = new OutputStream() {
@@ -231,6 +235,9 @@ public class ChangeDetectionImpl {
             tupleQuery.evaluate(writer);
         } catch (MalformedQueryException | QueryEvaluationException | TupleQueryResultHandlerException | RepositoryException ex) {
             return Response.status(400).entity(ex.getMessage()).build();
+        } finally {
+            try {output.close();} catch (IOException e) {e.printStackTrace();}
+            sesame.terminate();
         }
         return Response.status(200).entity(output.toString()).build();
     }
@@ -279,6 +286,7 @@ public class ChangeDetectionImpl {
     public Response queryChangesOntologyPost(String inputMessage) {
         JSONParser jsonParser = new JSONParser();
         OutputStream output = null;
+        SesameVirtRep sesame = null;
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(inputMessage);
             if (jsonObject.size() != 2) {
@@ -297,7 +305,7 @@ public class ChangeDetectionImpl {
                 String password = propertiesManager.getPropertyValue("Repository_Password");
                 String changesOntol = propertiesManager.getPropertyValue("Changes_Ontology");
                 int port = Integer.parseInt(propertiesManager.getPropertyValue("Repository_Port"));
-                SesameVirtRep sesame = new SesameVirtRep(ip, port, username, password);
+                sesame = new SesameVirtRep(ip, port, username, password);
                 query = query.replace(" where ", " from <" + changesOntol + "> ");
                 TupleQuery tupleQuery = sesame.getCon().prepareTupleQuery(QueryLanguage.SPARQL, query);
                 output = new OutputStream() {
@@ -341,6 +349,9 @@ public class ChangeDetectionImpl {
             String json = "{ \"Success\" : false, "
                     + "\"Message\" : \"" + message + "\" }";
             return Response.status(400).entity(json).build();
+        } finally {
+            try {if (output != null){output.close();}} catch (IOException e) {e.printStackTrace();}
+            if (sesame != null){sesame.terminate();}
         }
         return Response.status(200).entity(output.toString()).build();
     }

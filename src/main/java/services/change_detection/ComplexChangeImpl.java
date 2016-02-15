@@ -96,38 +96,40 @@ public class ComplexChangeImpl {
         boolean result = false;
         String message = null;
         int code = 0;
-        JDBCVirtuosoRep jdbcRep;
+        JDBCVirtuosoRep jdbcRep = null;
         try {
             jdbcRep = new JDBCVirtuosoRep(propertiesManager.getProperties());
+
+            if (datasetUri == null) {
+                datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
+            }
+            String ontologySchema = Utils.getDatasetSchema(datasetUri);
+            String query = "select ?json from <" + ontologySchema + "> where { ?s co:name \"" + name + "\"; co:json ?json. }";
+            ResultSet res = jdbcRep.executeSparqlQuery(query, false);
+            try {
+                if (res.next()) {
+                    message = (String) res.getString("json");
+                    result = true;
+                    code = 200;
+                } else {
+                    message = "\"Complex change was not found in the ontology of changes.\"";
+                    result = false;
+                    code = 204;
+                }
+            } catch (SQLException ex) {
+                message = ex.getMessage();
+                result = false;
+                code = 400;
+            } finally {
+                try {if(res != null){res.close(); res = null;}} catch (SQLException e) {e.printStackTrace();}
+            }
         } catch (ClassNotFoundException | SQLException | IOException ex) {
             result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
+        } finally {
+            jdbcRep.terminate();
         }
-        if (datasetUri == null) {
-            datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
-        }
-        String ontologySchema = Utils.getDatasetSchema(datasetUri);
-        String query = "select ?json from <" + ontologySchema + "> where { ?s co:name \"" + name + "\"; co:json ?json. }";
-        ResultSet res = jdbcRep.executeSparqlQuery(query, false);
-        try {
-            if (res.next()) {
-                message = (String) res.getString("json");
-                result = true;
-                code = 200;
-            } else {
-                message = "\"Complex change was not found in the ontology of changes.\"";
-                result = false;
-                code = 204;
-            }
-            res.close();
-        } catch (SQLException ex) {
-            message = ex.getMessage();
-            result = false;
-            code = 400;
-        }
-
-        jdbcRep.terminate();
         String json = "{ \"Message\" : " + message + ", \"Result\" : " + result + " }";
         return Response.status(code).entity(json).build();
     }
@@ -160,12 +162,13 @@ public class ComplexChangeImpl {
             @QueryParam("dataset_uri") String datasetUri) {
         String message = null;
         int code;
+        MCDUtils utils = null;
         boolean result = false;
         if (datasetUri == null) {
             datasetUri = propertiesManager.getPropertyValue("Dataset_URI");
         }
         try {
-            MCDUtils utils = new MCDUtils(propertiesManager.getProperties(), datasetUri, false);
+            utils = new MCDUtils(propertiesManager.getProperties(), datasetUri, false);
             result = utils.deleteCC(name);
             message = null;
             if (result) {
@@ -185,12 +188,13 @@ public class ComplexChangeImpl {
             }
             ////
             utils.getJDBCRepository().executeUpdateQuery("checkpoint", false);
-            utils.terminate();
             return Response.status(code).entity(json).build();
         } catch (Exception ex) {
             result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
+        } finally {
+            if(utils != null){utils.terminate();}
         }
     }
 
@@ -290,7 +294,7 @@ public class ComplexChangeImpl {
     @Produces(MediaType.APPLICATION_JSON)
     public Response defineCCJSON(String inputMessage) {
         JSONParser jsonParser = new JSONParser();
-        CCManager ccDef;
+        CCManager ccDef = null;
         String datasetUri;
         String ccName;
         try {
@@ -303,57 +307,61 @@ public class ComplexChangeImpl {
             JSONObject ccJson = (JSONObject) jsonParser.parse((String) jsonObject.get("CC_Definition"));
             ccName = (String) ccJson.get("Complex_Change");
             ccDef = JSONMessagesParser.createCCDefinition(propertiesManager.getProperties(), ccJson.toJSONString(), changesOntologySchema);
+
+            if (ccDef == null) {
+                String message = "JSON input message could not be parsed.";
+                String json = "{ \"Message\" : \"" + message + "\", \"Success\" : false }";
+                return Response.status(400).entity(json).build();
+            } else {
+                String message = null;
+                ccDef.insertChangeDefinition();
+                int code;
+                boolean result;
+                if (ccDef.getCcDefError().getErrorCode() == CODE.NON_UNIQUE_CC_NAME) {
+                    code = 204;
+                    message = ccDef.getCcDefError().getDescription();
+                    result = false;
+                } else if (ccDef.getCcDefError().getErrorCode() == null) {
+                    code = 200;
+                    message = "Complex Change's definition was inserted in the ontology of changes.";
+                    result = true;
+                } else {
+                    code = 400;
+                    message = ccDef.getCcDefError().getDescription();
+                    result = false;
+                }
+                ccDef.getJdbcRep().executeUpdateQuery("checkpoint", false);
+                ////
+                Exception ex = updateChangesOntologies(datasetUri, ccName);
+                if (ex != null) {
+                    result = false;
+                    String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
+                    return Response.status(400).entity(json).build();
+                }
+                ////
+                String json = "{ \"Message\" : \"" + message + "\", \"Success\" : " + result + " }";
+                return Response.status(code).entity(json).build();
+            }
         } catch (Exception ex) {
             boolean result = false;
             String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
             return Response.status(400).entity(json).build();
-        }
-        if (ccDef == null) {
-            String message = "JSON input message could not be parsed.";
-            String json = "{ \"Message\" : \"" + message + "\", \"Success\" : false }";
-            return Response.status(400).entity(json).build();
-        } else {
-            String message = null;
-            ccDef.insertChangeDefinition();
-            int code;
-            boolean result;
-            if (ccDef.getCcDefError().getErrorCode() == CODE.NON_UNIQUE_CC_NAME) {
-                code = 204;
-                message = ccDef.getCcDefError().getDescription();
-                result = false;
-            } else if (ccDef.getCcDefError().getErrorCode() == null) {
-                code = 200;
-                message = "Complex Change's definition was inserted in the ontology of changes.";
-                result = true;
-            } else {
-                code = 400;
-                message = ccDef.getCcDefError().getDescription();
-                result = false;
-            }
-            ccDef.getJdbcRep().executeUpdateQuery("checkpoint", false);
-            ccDef.terminate();
-            ////
-            Exception ex = updateChangesOntologies(datasetUri, ccName);
-            if (ex != null) {
-                result = false;
-                String json = "{ \"Message\" : \"Exception Occured: " + ex.getMessage() + ", \"Result\" : " + result + " }";
-                return Response.status(400).entity(json).build();
-            }
-            ////
-            String json = "{ \"Message\" : \"" + message + "\", \"Success\" : " + result + " }";
-            return Response.status(code).entity(json).build();
+        } finally {
+            if(ccDef != null){ccDef.terminate();}
         }
     }
 
     private Exception updateChangesOntologies(String datasetUri, String ccName) {
         boolean result;
+        MCDUtils mcd = null;
         try {
-            MCDUtils mcd = new MCDUtils(propertiesManager.getProperties(), datasetUri, true);
+            mcd = new MCDUtils(propertiesManager.getProperties(), datasetUri, true);
             mcd.deleteCCWithLessPriority(ccName);
             mcd.detectDatasets(true);
-            mcd.terminate();
         } catch (Exception ex) {
             return ex;
+        } finally {
+            if (mcd != null){mcd.terminate();}
         }
 
         return null;
